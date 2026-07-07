@@ -1,6 +1,6 @@
 {
   "name": "bumbal-grapesjs",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "GrapesJS preset configuration for the newsletter editor",
   "main": "dist/index.js",
   "files": [
@@ -14,6 +14,7 @@
     "v:patch": "npm version --no-git-tag-version patch",
     "start": "grapesjs-cli serve",
     "build": "grapesjs-cli build",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "keywords": [
