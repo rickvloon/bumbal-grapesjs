@@ -11,3 +11,21 @@
   box-shadow: none;
   color: #0C95F7;
 }
+
+.gjs-pn-commands .gjs-pn-buttons {
+  justify-content: flex-start;
+}
+
+.gjs-pn-middle {
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.gjs-pn-commands {
+  width: 100%;
+}
+
+.gjs-pn-options {
+  right: 0;
+}
