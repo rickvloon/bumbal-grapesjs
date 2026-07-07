@@ -1,0 +1,13 @@
+.gjs-one-bg {
+  background-color: #fff !important;
+}
+
+.gjs-pn-btn {
+  color: #000
+}
+
+.gjs-pn-btn.gjs-pn-active {
+  background-color: transparent;
+  box-shadow: none;
+  color: #0C95F7;
+}

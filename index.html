@@ -5,6 +5,7 @@
     <title>GrapesJS Newsletter Editor</title>
     <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">
     <script src="https://unpkg.com/grapesjs"></script>
+    <script src="dist/index.js"></script>
   </head>
   <style>
      body,
@@ -439,9 +440,9 @@
           storageManager: false,
           container: '#gjs',
           fromElement: true,
-          plugins: ['grapesjs-preset-newsletter'],
+          plugins: ['bumbal-grapesjs'],
           pluginsOpts: {
-            'grapesjs-preset-newsletter': {
+            'bumbal-grapesjs': {
               modalLabelImport: 'Paste all your code here below and click import',
               modalLabelExport: 'Copy the code and use it wherever you want',
               importPlaceholder: '<table class="table"><tr><td class="cell">Hello world!</td></tr></table>',

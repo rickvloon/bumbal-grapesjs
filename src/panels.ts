@@ -1,17 +1,15 @@
 import type { Editor } from 'grapesjs';
 import { PluginOptions } from '.';
-import { cmdClear, cmdDeviceDesktop, cmdDeviceMobile, cmdDeviceTablet } from './consts';
+import { cmdClear, cmdDeviceDesktop, cmdDeviceMobile } from './consts';
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
   const { Panels } = editor;
-  const { cmdOpenImport, cmdTglImages } = opts;
+  const { cmdOpenImport } = opts;
   const openExport = 'export-template';
   const openStyleManager = 'open-sm';
   const openTraits = 'open-tm';
   const openLayers = 'open-layers';
   const openBlocks = 'open-blocks';
-  const activateOutline = 'sw-visibility';
-  const activateFullscreen = 'fullscreen';
   const activatePreview = 'preview';
   const iconStyle = 'style="display: block; max-width: 22px"';
 
@@ -33,12 +31,6 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
             <path fill="currentColor" d="M21,16H3V4H21M21,2H3C1.89,2 1,2.89 1,4V16A2,2 0 0,0 3,18H10V20H8V22H16V20H14V18H21A2,2 0 0,0 23,16V4C23,2.89 22.1,2 21,2Z" />
         </svg>`
       }, {
-        id: cmdDeviceTablet,
-        command: cmdDeviceTablet,
-        label: `<svg ${iconStyle} viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19,18H5V6H19M21,4H3C1.89,4 1,4.89 1,6V18A2,2 0 0,0 3,20H21A2,2 0 0,0 23,18V6C23,4.89 22.1,4 21,4Z" />
-        </svg>`
-      }, {
         id: cmdDeviceMobile,
         command: cmdDeviceMobile,
         label: `<svg ${iconStyle} viewBox="0 0 24 24">
@@ -49,24 +41,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
     {
       id: 'options',
       buttons: [{
-        id: activateOutline,
-        command: activateOutline,
-        context: activateOutline,
-        label: `<svg ${iconStyle} viewBox="0 0 24 24">
-        <path fill="currentColor" d="M15,5H17V3H15M15,21H17V19H15M11,5H13V3H11M19,5H21V3H19M19,9H21V7H19M19,21H21V19H19M19,13H21V11H19M19,17H21V15H19M3,5H5V3H3M3,9H5V7H3M3,13H5V11H3M3,17H5V15H3M3,21H5V19H3M11,21H13V19H11M7,21H9V19H7M7,5H9V3H7V5Z" />
-    </svg>`,
-      }, {
         id: activatePreview,
         context: activatePreview,
         command: activatePreview,
         label: `<svg ${iconStyle} viewBox="0 0 24 24"><path fill="currentColor" d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"></path></svg>`
-      }, {
-        id: activateFullscreen,
-        command: activateFullscreen,
-        context: activateFullscreen,
-        label: `<svg ${iconStyle} viewBox="0 0 24 24">
-            <path fill="currentColor" d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
-        </svg>`
       }, {
         id: openExport,
         command: openExport,
@@ -78,12 +56,6 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
         command: cmdOpenImport,
         label: `<svg ${iconStyle} viewBox="0 0 24 24">
             <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-        </svg>`,
-      }, {
-        id: cmdTglImages,
-        command: cmdTglImages,
-        label: `<svg ${iconStyle} viewBox="0 0 24 24">
-          <path fill="currentColor" d="M5 3C3.9 3 3 3.9 3 5V19C3 20.11 3.9 21 5 21H14.09C14.03 20.67 14 20.34 14 20C14 19.32 14.12 18.64 14.35 18H5L8.5 13.5L11 16.5L14.5 12L16.73 14.97C17.7 14.34 18.84 14 20 14C20.34 14 20.67 14.03 21 14.09V5C21 3.89 20.1 3 19 3H5M16.47 17.88L18.59 20L16.47 22.12L17.88 23.54L20 21.41L22.12 23.54L23.54 22.12L21.41 20L23.54 17.88L22.12 16.46L20 18.59L17.88 16.47L16.46 17.88Z"/>
         </svg>`,
       }, {
         id: 'undo',
