@@ -1,6 +1,6 @@
 {
-  "name": "grapesjs-preset-newsletter",
-  "version": "1.0.3",
+  "name": "bumbal-grapesjs",
+  "version": "1.0.4",
   "description": "GrapesJS preset configuration for the newsletter editor",
   "main": "dist/index.js",
   "files": [
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/GrapesJS/preset-newsletter"
+    "url": "https://github.com/rickvloon/bumbal-grapesjs"
   },
   "scripts": {
     "v:patch": "npm version --no-git-tag-version patch",
