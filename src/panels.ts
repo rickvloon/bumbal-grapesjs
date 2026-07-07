@@ -106,10 +106,17 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			editor.getSelected() && showView(openStyleManager);
 		});
 
-	// Do stuff on load
 	editor.onReady(() => {
 		if (opts.showBlocksOnLoad) {
 			showView(openBlocks);
 		}
+
+		const canvasEl = editor.Canvas.getElement();
+		canvasEl.addEventListener("click", (e) => {
+			if ((e.target as HTMLElement).classList.contains("gjs-cv-canvas__frames")) {
+				editor.select(undefined);
+				showView(openBlocks);
+			}
+		});
 	});
 };

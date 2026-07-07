@@ -184,7 +184,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
       vertical-align: middle !important;
     }
     .cell:empty::before {
-      content: "No content here.\\ADrag content from the right.";
+      content: "No content here.\\A Drag content from the right.";
       white-space: pre-line;
       display: inline-block;
       color: #3b97e3;
