@@ -2,6 +2,7 @@ import type { Plugin } from 'grapesjs';
 import juice from 'juice';
 import loadBlocks from './blocks';
 import loadCommands from './commands';
+import loadComponents from './components';
 import loadPanels from './panels';
 import loadStyles from './styles';
 import loadDevices from './devices';
@@ -16,7 +17,7 @@ export interface PluginOptions {
   /**
    * Add custom block options, based on block id.
    * @default (blockId) => ({})
-   * @example (blockId) => blockId === 'quote' ? { attributes: {...} } : {};
+   * @example (blockId) => blockId === 'link' ? { attributes: {...} } : {};
    */
   block?: (blockId: string) => ({});
 
@@ -133,7 +134,12 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
   let config = editor.getConfig();
 
   const options: RequiredPluginOptions = {
-    blocks: ['sect100', 'sect50', 'sect30', 'sect37', 'button', 'divider', 'text', 'text-sect', 'image', 'quote', 'link', 'link-block', 'grid-items', 'list-items'],
+    blocks: [
+      'sect100', 'sect50', 'sect30', 'sect25', 'sect13l', 'sect13r',
+      'heading-h1', 'heading-h2', 'text', 'subtitle', 'image', 'link',
+      'packageline', 'notes', 'files', 'signature', 'portal-link', 'button',
+      'divider', 'text-sect', 'quote', 'link-block', 'grid-items', 'list-items',
+    ],
     block: () => ({}),
     juiceOpts: {},
     cmdOpenImport: 'gjs-open-import-template',
@@ -167,8 +173,29 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
 
   // Change some config
   config.devicePreviewMode = true;
+  config.canvasCss = `${config.canvasCss || ''}
+    body {
+      font-family: "Open Sans", sans-serif;
+    }
+    .cell:empty {
+      position: relative;
+      background-color: #eaf3fd;
+      text-align: center;
+      vertical-align: middle !important;
+    }
+    .cell:empty::before {
+      content: "No content here.\\ADrag content from the right.";
+      white-space: pre-line;
+      display: inline-block;
+      color: #3b97e3;
+      font-family: "Open Sans", sans-serif;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+  `;
 
   loadCommands(editor, options);
+  loadComponents(editor, options);
   loadBlocks(editor, options);
   loadPanels(editor, options);
   loadStyles(editor, options);
