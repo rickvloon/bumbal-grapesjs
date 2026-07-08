@@ -52,6 +52,17 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 				itemEl.textContent = name;
 				itemEl.title = code;
 				itemEl.dataset.code = code;
+				itemEl.addEventListener("click", () => {
+					navigator.clipboard.writeText(code).then(() => {
+						const original = name;
+						itemEl.textContent = "Copied!";
+						itemEl.classList.add("gjs-variables-item--copied");
+						setTimeout(() => {
+							itemEl.textContent = original;
+							itemEl.classList.remove("gjs-variables-item--copied");
+						}, 500);
+					});
+				});
 				categoryEl.appendChild(itemEl);
 			});
 

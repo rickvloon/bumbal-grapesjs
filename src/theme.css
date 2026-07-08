@@ -257,6 +257,18 @@
 	font-size: 13px;
 	color: #000;
 	background-color: #fff;
+	cursor: pointer;
+}
+
+.gjs-variables-item:hover {
+	border-color: #b2b2b2;
+	color: #0c95f7;
+}
+
+.gjs-variables-item--copied {
+	border-color: #0c95f7;
+	color: #0c95f7;
+	background-color: #eaf3fd;
 }
 
 /* Stop preview button */
