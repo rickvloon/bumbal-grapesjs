@@ -7,6 +7,8 @@ import loadPanels from './panels';
 import loadStyles from './styles';
 import loadDevices from './devices';
 import loadVariables from './variables';
+import loadTraits from './traits';
+import loadTypes from './types';
 import './theme.css';
 
 export interface PluginOptions {
@@ -248,6 +250,8 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
 
   loadCommands(editor, options);
   loadComponents(editor, options);
+  loadTraits(editor, options);
+  loadTypes(editor, options);
   loadBlocks(editor, options);
   loadPanels(editor, options);
   loadStyles(editor, options);

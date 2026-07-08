@@ -28,13 +28,16 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path fill-rule="evenodd" clip-rule="evenodd" d="M3 5V19H21V5H3ZM5.11765 7.15385H10.4118H13.5882H15.7059L18.8824 7.15385V16.8462L15.7059 16.8462H13.5882H10.4118H5.11765V7.15385Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+			content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell"></td>
         </tr>
       </table>
     `,
+			traits: [],
+		},
 	});
 
 	addBlock("sect50", {
@@ -45,14 +48,16 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M13 16.8462V7.15385H11V16.8462H13Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+            content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell" style="width: 50%"></td>
           <td class="cell" style="width: 50%"></td>
         </tr>
       </table>
-    `,
+    `, traits: []
+        }
 	});
 
 	addBlock("sect30", {
@@ -62,7 +67,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M3 5V19H21V5H3ZM13.5882 7.15385V16.8462H10.4118V7.15385H13.5882ZM5.11765 7.15385H8.29412V16.8462H5.11765V7.15385ZM18.8824 16.8462H15.7059V7.15385H18.8824V16.8462Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+            content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell" style="width: 33.3333%"></td>
@@ -70,7 +76,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
           <td class="cell" style="width: 33.3333%"></td>
         </tr>
       </table>
-    `,
+    `, traits: []
+        }
 	});
 
 	addBlock("sect25", {
@@ -83,7 +90,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M17 16.8462V7.15384H15V16.8462H17Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+            content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell" style="width: 25%"></td>
@@ -92,7 +100,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
           <td class="cell" style="width: 25%"></td>
         </tr>
       </table>
-    `,
+    `, traits: []
+        }
 	});
 
 	addBlock("sect13l", {
@@ -102,14 +111,16 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M3 5V19H21V5H3ZM19 7.15385V16.8462L11 16.8462V7.15385L19 7.15385ZM5 7.15385H9V16.8462H5V7.15385Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+            content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell" style="width:33.3333%"></td>
           <td class="cell" style="width:66.6667%"></td>
         </tr>
       </table>
-    `,
+    `, traits: []
+        }
 	});
 
 	addBlock("sect13r", {
@@ -119,14 +130,16 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M21 19V5L3 5V19L21 19ZM5 16.8462L5 7.15385L13 7.15384L13 16.8462L5 16.8462ZM19 16.8462H15L15 7.15384H19V16.8462Z" fill="black"/>
 </svg>
 `,
-		content: `
+		content: {
+            content: `
       <table style="${tableStyleStr}">
         <tr>
           <td class="cell" style="width:66.6667%"></td>
           <td class="cell" style="width:33.3333%"></td>
         </tr>
       </table>
-    `,
+    `, traits: []
+        }
 	});
 
 	const basicCategory = "Basic";
@@ -163,7 +176,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			type: "text",
 			tagName: "h2",
 			content: "Heading 2",
-            style: {
+			style: {
 				margin: 0,
 				padding: "12px 8px",
 				"font-size": "18px",
@@ -185,7 +198,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			type: "text",
 			tagName: "p",
 			content: "Insert your text here",
-            style: {
+			style: {
 				margin: 0,
 				padding: "8px 8px",
 				"font-size": "14px",
@@ -206,12 +219,12 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			tagName: "h4",
 			attributes: { class: "subtitle" },
 			content: "Subtitle",
-            style: {
+			style: {
 				margin: 0,
 				padding: "8px 8px",
 				"font-size": "12px",
 				"letter-spacing": 0,
-                "color": "#888"
+				color: "#888",
 			},
 		},
 	});

@@ -7,9 +7,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 	const { cmdOpenImport } = opts;
 	const openExport = "export-template";
 	const openStyleManager = "open-sm";
+	const openTraitManager = "open-tm";
 	const openBlocks = "open-blocks";
 	const activatePreview = "preview";
-	const viewCommands = [openStyleManager, "open-tm", "open-layers", openBlocks];
+	const viewCommands = [openStyleManager, openTraitManager, "open-layers", openBlocks];
 
 	// Only one view (Style Manager/Traits/Layers/Blocks) shows at a time,
 	// now that there's no button group to enforce that automatically.
@@ -100,10 +101,11 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		},
 	]);
 
-	// On component change show the Style Manager
+	// On component change show the Trait Manager (custom per-type settings
+	// panel) rather than the generic Style Manager.
 	opts.showStylesOnChange &&
 		editor.on("component:selected", () => {
-			editor.getSelected() && showView(openStyleManager);
+			editor.getSelected() && showView(openTraitManager);
 		});
 
 	// The core `preview` command hides every panel, including the one

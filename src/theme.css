@@ -394,3 +394,288 @@
 .gjs-sm-property {
     width: 100%;
 }
+
+/* Hide the Selector Manager's "Classes" / state / selected-target row that
+   renders above the Style Manager sectors. */
+.gjs-clm-tags {
+    display: none;
+}
+
+/* Custom trait widgets: flat list, no per-trait dividers/category chrome. */
+.gjs-trt-trait {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 14px;
+}
+
+.gjs-trt-trait .gjs-label {
+	font-size: 13px;
+	color: #000;
+}
+
+/* Header row: component name + duplicate/delete/close, rendered into
+   GrapesJS's own persistent Trait Manager label element. */
+.gjs-traits-label {
+	padding: 12px 14px 8px;
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.gjs-trt-heading-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.gjs-trt-heading-title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #000;
+}
+
+.gjs-trt-heading-actions {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.gjs-trt-heading-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: none;
+	border-radius: 4px;
+	background: transparent;
+	color: #000;
+	cursor: pointer;
+}
+
+.gjs-trt-heading-btn:hover {
+	background-color: #eaf3fd;
+	color: var(--gjs-quaternary-color);
+}
+
+/* Icon toggle groups (text decorations / text align) */
+.gjs-trt-toggle-group {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.gjs-trt-toggle-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	background-color: #fff;
+	color: #000;
+	font-size: 13px;
+	font-family: "Open Sans", sans-serif;
+	cursor: pointer;
+}
+
+.gjs-trt-toggle-btn:hover {
+	border-color: #b2b2b2;
+}
+
+.gjs-trt-toggle-btn--active {
+	border-color: var(--gjs-quaternary-color);
+	color: var(--gjs-quaternary-color);
+	background-color: #eaf3fd;
+}
+
+.gjs-trt-toggle-btn svg {
+	fill: currentColor;
+}
+
+.gjs-trt-decoration-icon {
+	pointer-events: none;
+}
+
+/* Stepper (font size / font weight) */
+.gjs-trt-stepper {
+	display: flex;
+	align-items: center;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.gjs-trt-stepper-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: none;
+	background-color: #fff;
+	color: #000;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.gjs-trt-stepper-btn:hover {
+	background-color: #eaf3fd;
+	color: var(--gjs-quaternary-color);
+}
+
+.gjs-trt-stepper-value {
+	min-width: 56px;
+	text-align: center;
+	font-size: 13px;
+	color: #000;
+	padding: 0 6px;
+	border-left: 1px solid #e1e1e1;
+	border-right: 1px solid #e1e1e1;
+}
+
+/* Text colour */
+.gjs-trt-color {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.gjs-trt-color-hex {
+	width: 76px;
+	padding: 4px 6px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	font-size: 13px;
+	font-family: "Open Sans", sans-serif;
+	color: #000;
+}
+
+.gjs-trt-color-swatch {
+	display: block;
+	width: 22px;
+	height: 22px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.gjs-trt-color-swatch input[type="color"] {
+	width: 200%;
+	height: 200%;
+	margin: -4px;
+	padding: 0;
+	border: none;
+	cursor: pointer;
+}
+
+/* Link */
+.gjs-trt-link {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	width: 100%;
+}
+
+.gjs-trt-link-value {
+	font-size: 13px;
+	color: #9a9a9a;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 140px;
+}
+
+.gjs-trt-link-value--set {
+	color: #000;
+}
+
+.gjs-trt-link-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	background-color: #fff;
+	color: #000;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.gjs-trt-link-btn:hover,
+.gjs-trt-link-btn--active {
+	border-color: var(--gjs-quaternary-color);
+	color: var(--gjs-quaternary-color);
+	background-color: #eaf3fd;
+}
+
+.gjs-trt-link-popover {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	margin-top: 6px;
+	width: 220px;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #d9d9d9;
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 10;
+}
+
+.gjs-trt-link-input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 6px 8px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	font-size: 13px;
+	font-family: "Open Sans", sans-serif;
+	color: #000;
+}
+
+.gjs-trt-link-popover-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 8px;
+}
+
+.gjs-trt-link-popover-actions button {
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-family: "Open Sans", sans-serif;
+	cursor: pointer;
+}
+
+.gjs-trt-link-apply {
+	border: 1px solid var(--gjs-quaternary-color);
+	background-color: var(--gjs-quaternary-color);
+	color: #fff;
+}
+
+.gjs-trt-link-apply:hover {
+	background-color: #0b86dd;
+}
+
+.gjs-trt-link-remove {
+	border: 1px solid #e1e1e1;
+	background-color: #fff;
+	color: #000;
+}
+
+.gjs-trt-link-remove:hover {
+	border-color: #b2b2b2;
+}
