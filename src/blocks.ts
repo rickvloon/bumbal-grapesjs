@@ -143,6 +143,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			tagName: "h1",
 			content: "Heading 1",
 			style: {
+				margin: 0,
 				padding: "12px 8px",
 				"font-size": "22px",
 				"font-weight": 600,
@@ -163,6 +164,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			tagName: "h2",
 			content: "Heading 2",
             style: {
+				margin: 0,
 				padding: "12px 8px",
 				"font-size": "18px",
 				"font-weight": 600,
@@ -184,6 +186,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			tagName: "p",
 			content: "Insert your text here",
             style: {
+				margin: 0,
 				padding: "8px 8px",
 				"font-size": "14px",
 				"letter-spacing": 0,
@@ -204,6 +207,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 			attributes: { class: "subtitle" },
 			content: "Subtitle",
             style: {
+				margin: 0,
 				padding: "8px 8px",
 				"font-size": "12px",
 				"letter-spacing": 0,

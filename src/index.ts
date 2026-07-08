@@ -207,11 +207,29 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
 
   // Change some config
   config.devicePreviewMode = true;
+  // Layout properties (not inherited by dropped-in content) always apply to
+  // the cell. Everything else (eg. color, font-size) is typography that would
+  // otherwise cascade into whatever gets dropped into the cell, so it's only
+  // applied while the cell has no content yet.
+  const layoutCellProps = ['vertical-align', 'padding', 'margin', 'height', 'width', 'border', 'background', 'background-color'];
+  const cellEntries = Object.entries(options.cellStyle);
+  const alwaysCellStyleStr = cellEntries
+    .filter(([prop]) => layoutCellProps.includes(prop))
+    .map(([prop, value]) => `${prop}: ${value};`)
+    .join(' ');
+  const emptyOnlyCellStyleStr = cellEntries
+    .filter(([prop]) => !layoutCellProps.includes(prop))
+    .map(([prop, value]) => `${prop}: ${value};`)
+    .join(' ');
   config.canvasCss = `${config.canvasCss || ''}
     body {
       font-family: "Open Sans", sans-serif;
     }
+    .cell {
+      ${alwaysCellStyleStr}
+    }
     .cell:empty {
+      ${emptyOnlyCellStyleStr}
       position: relative;
       background-color: #eaf3fd;
       text-align: center;
