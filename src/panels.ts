@@ -125,5 +125,25 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 				showView(openBlocks);
 			}
 		});
+
+		const stopPreviewBtn = document.createElement("button");
+		stopPreviewBtn.type = "button";
+		stopPreviewBtn.className = "gjs-stop-preview";
+		stopPreviewBtn.innerHTML = `
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M18.3 5.71L12 12.01L5.7 5.71L4.29 7.12L10.59 13.42L4.29 19.72L5.7 21.13L12 14.83L18.3 21.13L19.71 19.72L13.41 13.42L19.71 7.12L18.3 5.71Z" fill="currentColor"/>
+			</svg>
+			<span>Stop preview</span>
+		`;
+		stopPreviewBtn.addEventListener("click", () => editor.stopCommand(activatePreview));
+		canvasEl.appendChild(stopPreviewBtn);
+
+		editor.on("command:run:before:preview", () => {
+			stopPreviewBtn.style.display = "flex";
+            console.log("here")
+		});
+		editor.on("command:stop:before:preview", () => {
+			stopPreviewBtn.style.display = "none";
+		});
 	});
 };
