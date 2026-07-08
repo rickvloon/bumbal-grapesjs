@@ -74,4 +74,62 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			wrapper.style.display = "block";
 		});
 	});
+
+	const mergeTagSections = Object.entries(opts.variables).map(([label, items]) => ({
+		label,
+		tags: Object.entries(items).map(([label, value]) => ({ label, value })),
+	}));
+
+	const rtesWithMergeTags = new Set();
+
+	editor.on("rte:enable", (view, rte) => {
+		if (rtesWithMergeTags.has(rte)) return;
+		rtesWithMergeTags.add(rte);
+
+		const wrapper = document.createElement("div");
+		wrapper.className = "merge-menu-wrapper";
+		wrapper.innerHTML = "Variables &#9662;";
+
+		const menu = document.createElement("div");
+		menu.className = "merge-menu";
+
+		mergeTagSections.forEach((section) => {
+			const sectionEl = document.createElement("div");
+			sectionEl.className = "merge-section";
+			sectionEl.textContent = section.label;
+
+			const submenu = document.createElement("div");
+			submenu.className = "merge-submenu";
+
+			section.tags.forEach((tag) => {
+				const tagEl = document.createElement("div");
+				tagEl.className = "merge-tag-item";
+				tagEl.textContent = tag.label;
+
+				tagEl.onclick = (e) => {
+					e.stopPropagation();
+					view.el.focus();
+					rte.insertHTML(tag.value);
+					menu.style.display = "none";
+				};
+
+				submenu.appendChild(tagEl);
+			});
+
+			sectionEl.appendChild(submenu);
+			menu.appendChild(sectionEl);
+		});
+
+		wrapper.onclick = (e) => {
+			e.stopPropagation();
+			menu.style.display = menu.style.display === "block" ? "none" : "block";
+		};
+
+		wrapper.appendChild(menu);
+		rte.actionbar?.appendChild(wrapper);
+
+		document.addEventListener("click", () => {
+			menu.style.display = "none";
+		});
+	});
 };

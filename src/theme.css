@@ -284,3 +284,91 @@
 	border-color: #b2b2b2;
 	color: #0c95f7;
 }
+
+/* Merge tag menu wrapper */
+
+.merge-menu-wrapper {
+  position: relative;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.merge-menu-wrapper:hover {
+  background-color: #eaf3fd;
+}
+
+.merge-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 170px;
+  margin-top: 4px;
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  z-index: 99999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.merge-section {
+  position: relative;
+  padding: 8px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  color: #000;
+  background-color: transparent;
+}
+
+.merge-section:hover {
+  background-color: #eaf3fd;
+  color: #0c95f7;
+}
+
+.merge-section::after {
+  content: "›";
+  float: right;
+  color: #9a9a9a;
+}
+
+.merge-section:hover::after {
+  color: #0c95f7;
+}
+
+.merge-submenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  min-width: 190px;
+  margin-left: 4px;
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.merge-section:hover .merge-submenu {
+  display: block;
+}
+
+.merge-tag-item {
+  padding: 8px 10px;
+  border-radius: 4px;
+  color: #000;
+  cursor: pointer;
+}
+
+.merge-tag-item:hover {
+  background-color: #eaf3fd;
+  color: #0c95f7;
+}
+
