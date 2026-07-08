@@ -1,0 +1,67 @@
+{
+  "uuid": "e5150d54-e208-31ca-f754-ffb320142920",
+  "nr": "ACT0001",
+  "reference": "REF-2024-001",
+  "driver_full_name": "Jane Doe",
+  "assignment": {
+    "account_name": "Acme Logistics"
+  },
+  "asignment": {
+    "nr": "ASG0001"
+  },
+  "address": {
+    "contact_person": "John Smith",
+    "street_1": "Main Street",
+    "street_2": "Suite 4",
+    "house_nr": "12",
+    "house_nr_addendum": "A",
+    "city": "Rotterdam",
+    "zipcode": "3011 AA",
+    "iso_country": "NL",
+    "summary": "Main Street 12A, 3011 AA Rotterdam, NL"
+  },
+  "vehicle": {
+    "vehicle_type_name": "Van",
+    "name": "Van 1",
+    "registration_nr": "AB-123-C",
+    "info": "Refrigerated van",
+    "max_speed": 90,
+    "speed_factor": 1,
+    "start_duration": 5,
+    "end_duration": 5,
+    "duration_factor": 1,
+    "cost_per_meter": 0.05,
+    "cost_per_route": 10,
+    "cost_per_driving_minute": 0.5,
+    "cost_per_waiting_minute": 0.2,
+    "cost_per_service_minute": 0.3
+  },
+  "preffed_date_time_from": "2024-06-01 09:00",
+  "preffed_date_time_to": "2024-06-01 11:00",
+  "planned_date_time_from": "2024-06-01 09:15",
+  "planned_date_time_to": "2024-06-01 11:15",
+  "executed_date_time_from": "2024-06-01 09:20",
+  "executed_date_time_to": "2024-06-01 11:20",
+  "date_time_from": "2024-06-01 09:00",
+  "date_time_to": "2024-06-01 11:00",
+  "package_lines": [
+    { "nr_of_packages": 3, "description": "Pallets of canned goods" },
+    { "nr_of_packages": 1, "description": "Fragile glassware box" }
+  ],
+  "notes": [
+    { "title": "Delivery instructions", "content": "Ring doorbell twice" },
+    { "title": "Access", "content": "Use the back entrance" }
+  ],
+  "files": [
+    {
+      "location": "/images/proof_of_delivery.png",
+      "value": "Proof of delivery photo",
+      "meta_data": [{ "value": "proof_of_delivery" }]
+    },
+    {
+      "location": "/images/signature.png",
+      "value": "Customer signature",
+      "meta_data": [{ "value": "signature" }]
+    }
+  ]
+}
