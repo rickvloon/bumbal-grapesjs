@@ -81,7 +81,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		editor.on("command:run:before:preview", () => {
 			wrapper.style.display = "none";
 		});
-		editor.on("command:stop:after:preview", () => {
+		editor.on("command:stop:preview", () => {
 			wrapper.style.display = "block";
 		});
 	});

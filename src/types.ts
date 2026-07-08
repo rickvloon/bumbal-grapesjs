@@ -5,14 +5,6 @@ import { weightNames } from "./traits";
 export default (editor: Editor, _opts: Required<PluginOptions>) => {
 	const domc = editor.DomComponents;
 
-    domc.addType("table", {
-        model: {
-            defaults: {
-                traits: []
-            }
-        }
-    })
-
 	domc.addType("text", {
 		model: {
 			defaults: {
@@ -49,4 +41,28 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			},
 		},
 	} as any);
+
+	// Strip "id" and "title" from every other registered type's traits,
+	// whatever they currently are (string names or trait config objects),
+	// instead of hardcoding a reduced list per type.
+	const removeNames = ["id", "title"];
+	const isRemoved = (trait: any) => removeNames.indexOf(typeof trait === "string" ? trait : trait?.name) >= 0;
+
+	domc.getTypes().forEach((type: any) => {
+		const proto = type.model?.prototype;
+		if (!proto) return;
+
+		const currentDefaults = typeof proto.defaults === "function" ? proto.defaults() : proto.defaults;
+		const currentTraits: any[] = (currentDefaults && currentDefaults.traits) || [];
+		if (!currentTraits.length) return;
+
+		const traits = currentTraits.filter((trait) => !isRemoved(trait));
+		if (traits.length === currentTraits.length) return;
+
+		domc.addType(type.id, {
+			model: {
+				defaults: { traits },
+			},
+		} as any);
+	});
 };

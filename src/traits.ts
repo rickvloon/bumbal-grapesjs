@@ -100,11 +100,9 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 		});
 		label.querySelector('[data-action="delete"]')?.addEventListener("click", () => {
 			editor.select(component);
+			// Switching to the Blocks view is handled globally in panels.ts via
+			// the "run:core:component-delete" event, which `tlb-delete` triggers.
 			editor.runCommand("tlb-delete");
-			// Nothing is selected after deletion - switch the sidebar back to
-			// the Blocks view, same as closing.
-			["open-sm", "open-tm", "open-layers"].forEach((id) => editor.stopCommand(id));
-			editor.runCommand("open-blocks");
 		});
 		label.querySelector('[data-action="close"]')?.addEventListener("click", () => {
 			editor.select(undefined);
@@ -118,6 +116,10 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 	editor.on("component:selected", () => {
 		const component = editor.getSelected();
 		component && renderHeader(component);
+	});
+
+    editor.on("command:run:tlb-delete", () => {
+        editor.runCommand("open-blocks");
 	});
 
 	// Multi-toggle group: bold / italic / strikethrough / underline, each

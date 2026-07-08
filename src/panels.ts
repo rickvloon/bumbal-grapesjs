@@ -108,6 +108,13 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			editor.getSelected() && showView(openTraitManager);
 		});
 
+	// Deleting a component (canvas toolbar, keyboard shortcut, or the custom
+	// trait-header delete button) always leaves nothing selected - switch the
+	// sidebar back to the Blocks view, same as clicking empty canvas.
+	editor.on("run:core:component-delete", () => {
+		showView(openBlocks);
+	});
+
 	// The core `preview` command hides every panel, including the one
 	// holding the preview toggle button itself, leaving no way to exit
 	// preview mode. Keep that panel visible so the button stays clickable.
