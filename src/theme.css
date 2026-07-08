@@ -1,5 +1,6 @@
 :root {
 	--gjs-left-width: 20%;
+    --gjs-quaternary-color: #0c95f7;
 }
 
 .gjs-editor-cont {
@@ -384,3 +385,12 @@
   color: #0c95f7;
 }
 
+/* Traits */
+
+.gjs-sm-properties {
+    flex-direction: column;
+}
+
+.gjs-sm-property {
+    width: 100%;
+}
