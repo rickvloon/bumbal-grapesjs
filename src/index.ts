@@ -6,6 +6,7 @@ import loadComponents from './components';
 import loadPanels from './panels';
 import loadStyles from './styles';
 import loadDevices from './devices';
+import loadVariables from './variables';
 import './theme.css';
 
 export interface PluginOptions {
@@ -126,6 +127,12 @@ export interface PluginOptions {
    * @default 'Are you sure you want to clear the canvas?'
    */
   textCleanCanvas?: string;
+
+  /**
+   * Variables shown in the collapsible Variables panel, grouped by category.
+   * Each entry maps a display name to its twig code.
+   */
+  variables?: Record<string, Record<string, string>>;
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
@@ -160,7 +167,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     },
     tableStyle: {
       height: '150px',
-      margin: '0 auto 10px auto',
+      margin: '0px',
       padding: '5px 5px 5px 5px',
       width: '100%'
     },
@@ -168,16 +175,47 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     showStylesOnChange: true,
     showBlocksOnLoad: true,
     textCleanCanvas: 'Are you sure you want to clear the canvas?',
+    variables: {
+      Activity: {
+        Number: '{{nr}}',
+        UUID: '{{uuid}}',
+        'Activity type': '{{activity_type_name}}',
+        'Start time': '{{date_time_from}}',
+        'End time': '{{date_time_to}}',
+        'Package lines': '{{package_lines}}',
+      },
+      Address: {
+        'Contact person': '{{address.contact_person}}',
+        'Street name': '{{address.street_1}}',
+        'Street name 2': '{{address.street_2}}',
+        'House number': '{{address.house_nr}}',
+        'House number addition': '{{address.house_nr_addendum}}',
+        'Zip code': '{{address.zipcode}}',
+        City: '{{address.city}}',
+        Country: '{{address.iso_country}}',
+        'Address summary': '{{address.summary}}',
+      },
+      Other: {
+        Reference: '{{reference}}',
+        'Driver full name': '{{driver_full_name}}',
+        'Assignment number': '{{assignment.nr}}',
+        'Account name': '{{assignment.account_name}}',
+      },
+    },
     ...opts,
   };
 
   // Change some config
   config.devicePreviewMode = true;
+  const cellStyleStr = Object.entries(options.cellStyle)
+    .map(([prop, value]) => `${prop}: ${value};`)
+    .join(' ');
   config.canvasCss = `${config.canvasCss || ''}
     body {
       font-family: "Open Sans", sans-serif;
     }
     .cell:empty {
+      ${cellStyleStr}
       position: relative;
       background-color: #eaf3fd;
       text-align: center;
@@ -200,6 +238,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
   loadPanels(editor, options);
   loadStyles(editor, options);
   loadDevices(editor, options);
+  loadVariables(editor, options);
 };
 
 export default plugin;

@@ -53,8 +53,13 @@
 	background-color: transparent;
 }
 
+.gjs-pn-views-container {
+    top: 0;
+}
+
 /* Canvas */
 .gjs-cv-canvas {
+	position: relative;
 	width: 100%;
 	background-color: #f5f5f5;
 	background-image: radial-gradient(circle, #d9d9d9 1px, transparent 1px);
@@ -149,4 +154,107 @@
 	text-transform: uppercase;
 	letter-spacing: 0.3px;
 	font-size: 11px;
+}
+
+/* Variables panel */
+.gjs-variables {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 10;
+	font-family: "Open Sans", sans-serif;
+}
+
+.gjs-variables-card {
+	width: 220px;
+	display: flex;
+	flex-direction: column;
+	background-color: #f9f9f9;
+	border: 1px solid #d9d9d9;
+	border-radius: 6px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	overflow: hidden;
+}
+
+.gjs-variables-open .gjs-variables-card {
+	height: 660px;
+}
+
+.gjs-variables-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 10px;
+}
+
+.gjs-variables-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #000;
+}
+
+.gjs-variables-title svg {
+	flex-shrink: 0;
+}
+
+.gjs-variables-actions {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.gjs-variables-help,
+.gjs-variables-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: #000;
+	cursor: pointer;
+}
+
+.gjs-variables-toggle svg {
+	transition: transform 0.2s ease;
+}
+
+.gjs-variables-open .gjs-variables-toggle svg {
+	transform: rotate(180deg);
+}
+
+.gjs-variables-body {
+	display: none;
+	flex: 1;
+	overflow-y: auto;
+	padding: 12px;
+}
+
+.gjs-variables-open .gjs-variables-body {
+	display: block;
+}
+
+.gjs-variables-category + .gjs-variables-category {
+	margin-top: 12px;
+}
+
+.gjs-variables-category-title {
+	font-size: 11px;
+	letter-spacing: 0.3px;
+	color: #9a9a9a;
+	margin-bottom: 6px;
+}
+
+.gjs-variables-item {
+	padding: 6px 10px;
+	margin-bottom: 6px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	font-size: 13px;
+	color: #000;
+	background-color: #fff;
 }

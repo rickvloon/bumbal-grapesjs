@@ -4,9 +4,7 @@ import { PluginOptions } from ".";
 export default function (editor: Editor, opts: Required<PluginOptions>) {
 	const bm = editor.Blocks;
 	let tableStyleStr = "";
-	let cellStyleStr = "";
 	let tableStyle = opts.tableStyle || {};
-	let cellStyle = opts.cellStyle || {};
 
 	const addBlock = (id: string, blockDef: BlockProperties) => {
 		opts.blocks.indexOf(id)! >= 0 &&
@@ -19,9 +17,6 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 
 	for (let prop in tableStyle) {
 		tableStyleStr += `${prop}: ${tableStyle[prop]}; `;
-	}
-	for (let prop in cellStyle) {
-		cellStyleStr += `${prop}: ${cellStyle[prop]}; `;
 	}
 
 	const category = "Layouts";
@@ -36,7 +31,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr}"></td>
+          <td class="cell"></td>
         </tr>
       </table>
     `,
@@ -53,8 +48,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr} width: 50%"></td>
-          <td class="cell" style="${cellStyleStr} width: 50%"></td>
+          <td class="cell" style="width: 50%"></td>
+          <td class="cell" style="width: 50%"></td>
         </tr>
       </table>
     `,
@@ -70,9 +65,9 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr} width: 33.3333%"></td>
-          <td class="cell" style="${cellStyleStr} width: 33.3333%"></td>
-          <td class="cell" style="${cellStyleStr} width: 33.3333%"></td>
+          <td class="cell" style="width: 33.3333%"></td>
+          <td class="cell" style="width: 33.3333%"></td>
+          <td class="cell" style="width: 33.3333%"></td>
         </tr>
       </table>
     `,
@@ -91,10 +86,10 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr} width: 25%"></td>
-          <td class="cell" style="${cellStyleStr} width: 25%"></td>
-          <td class="cell" style="${cellStyleStr} width: 25%"></td>
-          <td class="cell" style="${cellStyleStr} width: 25%"></td>
+          <td class="cell" style="width: 25%"></td>
+          <td class="cell" style="width: 25%"></td>
+          <td class="cell" style="width: 25%"></td>
+          <td class="cell" style="width: 25%"></td>
         </tr>
       </table>
     `,
@@ -110,8 +105,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr} width:33.3333%"></td>
-          <td class="cell" style="${cellStyleStr} width:66.6667%"></td>
+          <td class="cell" style="width:33.3333%"></td>
+          <td class="cell" style="width:66.6667%"></td>
         </tr>
       </table>
     `,
@@ -127,8 +122,8 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		content: `
       <table style="${tableStyleStr}">
         <tr>
-          <td class="cell" style="${cellStyleStr} width:66.6667%"></td>
-          <td class="cell" style="${cellStyleStr} width:33.3333%"></td>
+          <td class="cell" style="width:66.6667%"></td>
+          <td class="cell" style="width:33.3333%"></td>
         </tr>
       </table>
     `,
