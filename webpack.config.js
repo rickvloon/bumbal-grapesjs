@@ -7,5 +7,11 @@ module.exports = ({ config }) => {
   });
   config.plugins.push(new MiniCssExtractPlugin({ filename: 'index.css' }));
 
+  config.module.rules.push({
+    test: /\.(png|jpe?g|gif|svg)$/i,
+    type: 'asset/resource',
+    generator: { filename: 'images/[name][ext]' },
+  });
+
   return config;
 };

@@ -3,6 +3,21 @@ import { PluginOptions } from ".";
 // @ts-ignore
 import Twig from "twig/twig.min.js";
 import fakeActivity from "./static/mock_activity.json";
+import proofOfDeliveryImg from "./static/images/proof_of_delivery.png";
+import signatureImg from "./static/images/signature.png";
+
+const mockFileImages: Record<string, string> = {
+	proof_of_delivery: proofOfDeliveryImg,
+	signature: signatureImg,
+};
+
+const previewActivity = {
+	...fakeActivity,
+	files: fakeActivity.files.map((file) => ({
+		...file,
+		location: mockFileImages[file.meta_data[0]?.value] ?? file.location,
+	})),
+};
 
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
@@ -12,7 +27,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 	const renderTwig = (html: string) => {
 		try {
-			return Twig.twig({ data: html }).render(fakeActivity);
+			return Twig.twig({ data: html }).render(previewActivity);
 		} catch (e) {
 			const error = e as Error;
 			return `<p>${error.message}</p>`;
