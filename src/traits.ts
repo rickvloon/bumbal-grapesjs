@@ -244,6 +244,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-stepper";
+			wrap.dataset.property = property;
 			wrap.innerHTML = `
 				<button type="button" class="gjs-trt-stepper-btn" data-dir="-1" aria-label="Decrease">&minus;</button>
 				<div class="gjs-trt-stepper-value"></div>

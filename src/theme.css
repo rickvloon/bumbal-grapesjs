@@ -425,6 +425,10 @@
     background-color: transparent;
 }
 
+.gjs-field-wrp {
+    flex-grow: inherit;
+}
+
 .gjs-trt-heading-header {
 	display: flex;
 	align-items: center;
@@ -473,6 +477,7 @@
 .gjs-trt-toggle-group {
 	display: flex;
 	align-items: stretch;
+	width: 160px;
 	border: 1px solid #e1e1e1;
 	border-radius: 8px;
 	overflow: hidden;
@@ -525,6 +530,10 @@
     background-color: #fff;
 }
 
+.gjs-trt-toggle-group, .gjs-trt-stepper {
+    width: 140px
+}
+
 .gjs-trt-stepper-btn {
 	display: flex;
 	align-items: center;
@@ -548,7 +557,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-width: 64px;
+	min-width: 50px;
 	text-align: center;
 	font-size: 14px;
 	font-weight: 600;
