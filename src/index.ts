@@ -9,6 +9,7 @@ import loadDevices from './devices';
 import loadVariables from './variables';
 import loadTraits from './traits';
 import loadTypes from './types';
+import loadPreview from './preview';
 import './theme.css';
 
 export interface PluginOptions {
@@ -257,6 +258,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
   loadStyles(editor, options);
   loadDevices(editor, options);
   loadVariables(editor, options);
+  loadPreview(editor, options);
 };
 
 export default plugin;

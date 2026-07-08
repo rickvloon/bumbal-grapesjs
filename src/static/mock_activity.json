@@ -54,12 +54,12 @@
   ],
   "files": [
     {
-      "location": "/images/proof_of_delivery.png",
+      "location": "./images/proof_of_delivery.png",
       "value": "Proof of delivery photo",
       "meta_data": [{ "value": "proof_of_delivery" }]
     },
     {
-      "location": "/images/signature.png",
+      "location": "./images/signature.png",
       "value": "Customer signature",
       "meta_data": [{ "value": "signature" }]
     }

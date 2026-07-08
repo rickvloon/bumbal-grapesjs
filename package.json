@@ -50,5 +50,8 @@
     "modulePaths": [
       "./src"
     ]
+  },
+  "dependencies": {
+    "twig": "^3.0.0"
   }
 }
