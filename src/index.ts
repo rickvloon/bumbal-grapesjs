@@ -207,15 +207,11 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
 
   // Change some config
   config.devicePreviewMode = true;
-  const cellStyleStr = Object.entries(options.cellStyle)
-    .map(([prop, value]) => `${prop}: ${value};`)
-    .join(' ');
   config.canvasCss = `${config.canvasCss || ''}
     body {
       font-family: "Open Sans", sans-serif;
     }
     .cell:empty {
-      ${cellStyleStr}
       position: relative;
       background-color: #eaf3fd;
       text-align: center;

@@ -106,6 +106,13 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			editor.getSelected() && showView(openStyleManager);
 		});
 
+	// The core `preview` command hides every panel, including the one
+	// holding the preview toggle button itself, leaving no way to exit
+	// preview mode. Keep that panel visible so the button stays clickable.
+	editor.on("run:preview", () => {
+		Panels.getPanel("commands")?.set("visible", true);
+	});
+
 	editor.onReady(() => {
 		if (opts.showBlocksOnLoad) {
 			showView(openBlocks);

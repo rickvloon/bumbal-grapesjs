@@ -250,7 +250,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 </svg>
 `,
 		content: `
-<table>
+<table style="box-sizing: border-box; width: 100%" width="100%">
 <tbody>
 <!--{% for item in package_lines %}-->
     <tr><td><span>{{item.nr_of_packages}} x {{item.description}}</span></td></tr>
@@ -268,7 +268,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 </svg>
 `,
 		content: `
-<table>
+<table style="box-sizing: border-box; width: 100%" width="100%">
 <tbody>
 <!--{% for note in notes %}-->
     <tr><td><span>{{note.title}}</span></td></tr>
@@ -308,7 +308,18 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 <path d="M10.9318 19.8684C12.5241 19.2461 12.1752 17.5301 11.3701 16.4454C10.574 15.334 9.47366 14.5693 8.36441 13.8314C7.5772 13.3335 6.85261 12.7111 6.27115 11.9998C6.02067 11.7064 5.51078 11.164 6.02962 11.0573C6.55741 10.9506 7.46985 11.4663 7.93502 11.6619C8.74907 11.9998 9.55417 12.391 10.3056 12.8533L11.2091 11.3418C9.81359 10.4261 8.02448 9.61697 6.3606 9.37691C5.41237 9.23465 4.41047 9.43026 4.08843 10.4527C3.80217 11.333 4.2584 12.2221 4.77724 12.9156C6.00278 14.5427 7.90818 15.3251 9.33053 16.7299C9.63468 17.0233 10.0014 17.37 10.1804 17.779C10.3682 18.1702 10.3235 18.1969 9.90304 18.1969C8.79379 18.1969 7.40723 17.3345 6.50373 16.7654L5.60023 18.2769C6.9689 19.1127 9.25896 20.4197 10.9318 19.8684ZM20.8524 5.99828C21.0492 5.80268 21.0492 5.4826 20.8524 5.29588L19.6895 4.14004C19.5016 3.95332 19.1796 3.95332 18.9917 4.14004L18.0793 5.04693L19.94 6.89628M12.05 11.0395V12.8889H13.9106L19.4122 7.42086L17.5515 5.57151L12.05 11.0395Z" fill="black"/>
 </svg>
 `,
-		content: '<div class="signature">Signature</div>',
+		content: `
+<div>
+<!--{% for file in files %}-->
+<!--{% set isSignature = false %}-->
+<!--{% for meta_data in file.meta_data %}-->
+<!--{% if (meta_data.value == 'signature') %}-->
+<!--{% set isSignature = true %}-->
+<!--{% endif %}-->
+<!--{% endfor %}-->
+<!--{% if isSignature %}--><img src="{{file.location}}" alt="{{file.value}}" style="width: 400px" width="400"><!--{% endif %}-->
+<!--{% endfor %}-->
+</div>`,
 	});
 
 	addBlock("portal-link", {

@@ -66,5 +66,12 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		card.appendChild(body);
 		wrapper.appendChild(card);
 		canvasEl.appendChild(wrapper);
+
+		editor.on("command:run:before:preview", () => {
+			wrapper.style.display = "none";
+		});
+		editor.on("command:stop:after:preview", () => {
+			wrapper.style.display = "block";
+		});
 	});
 };
