@@ -407,19 +407,22 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding: 10px 14px;
+	padding: 14px 16px;
 }
 
 .gjs-trt-trait .gjs-label {
-	font-size: 13px;
+	font-size: 14px;
 	color: #000;
 }
 
-/* Header row: component name + duplicate/delete/close, rendered into
-   GrapesJS's own persistent Trait Manager label element. */
+/* Header: component name + duplicate/delete/close, rendered into GrapesJS's
+   own persistent Trait Manager label element. */
 .gjs-traits-label {
-	padding: 12px 14px 8px;
-	border-bottom: 1px solid #d9d9d9;
+	padding: 14px 16px 12px;
+}
+
+.gjs-field {
+    background-color: transparent;
 }
 
 .gjs-trt-heading-header {
@@ -430,7 +433,7 @@
 }
 
 .gjs-trt-heading-title {
-	font-size: 14px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #000;
 }
@@ -445,8 +448,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 26px;
-	height: 26px;
+	width: 24px;
+	height: 24px;
 	padding: 0;
 	border: none;
 	border-radius: 4px;
@@ -455,42 +458,53 @@
 	cursor: pointer;
 }
 
+.gjs-trt-heading-btn svg {
+	width: 24px;
+	height: 24px;
+}
+
 .gjs-trt-heading-btn:hover {
 	background-color: #eaf3fd;
 	color: var(--gjs-quaternary-color);
 }
 
-/* Icon toggle groups (text decorations / text align) */
+/* Icon toggle groups (text decorations / text align): a single segmented
+   control - one outer border, thin dividers between cells, no gaps. */
 .gjs-trt-toggle-group {
 	display: flex;
-	align-items: center;
-	gap: 4px;
+	align-items: stretch;
+	border: 1px solid #e1e1e1;
+	border-radius: 8px;
+	overflow: hidden;
 }
 
 .gjs-trt-toggle-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
-	height: 28px;
+	flex: 1;
+	height: 40px;
 	padding: 0;
-	border: 1px solid #e1e1e1;
-	border-radius: 4px;
+	border: none;
+	border-right: 1px solid #e1e1e1;
 	background-color: #fff;
 	color: #000;
-	font-size: 13px;
+	font-size: 14px;
+	font-weight: 600;
 	font-family: "Open Sans", sans-serif;
 	cursor: pointer;
 }
 
+.gjs-trt-toggle-btn:last-child {
+	border-right: none;
+}
+
 .gjs-trt-toggle-btn:hover {
-	border-color: #b2b2b2;
+	background-color: #f5f5f5;
 }
 
 .gjs-trt-toggle-btn--active {
-	border-color: var(--gjs-quaternary-color);
 	color: var(--gjs-quaternary-color);
-	background-color: #eaf3fd;
 }
 
 .gjs-trt-toggle-btn svg {
@@ -504,37 +518,42 @@
 /* Stepper (font size / font weight) */
 .gjs-trt-stepper {
 	display: flex;
-	align-items: center;
+	align-items: stretch;
 	border: 1px solid #e1e1e1;
-	border-radius: 4px;
+	border-radius: 8px;
 	overflow: hidden;
+    background-color: #fff;
 }
 
 .gjs-trt-stepper-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 26px;
-	height: 26px;
+	width: 40px;
+	height: 40px;
 	padding: 0;
 	border: none;
 	background-color: #fff;
 	color: #000;
-	font-size: 14px;
+	font-size: 16px;
+	font-weight: 600;
 	cursor: pointer;
 }
 
 .gjs-trt-stepper-btn:hover {
-	background-color: #eaf3fd;
-	color: var(--gjs-quaternary-color);
+	background-color: #f5f5f5;
 }
 
 .gjs-trt-stepper-value {
-	min-width: 56px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 64px;
 	text-align: center;
-	font-size: 13px;
+	font-size: 14px;
+	font-weight: 600;
 	color: #000;
-	padding: 0 6px;
+	padding: 0 8px;
 	border-left: 1px solid #e1e1e1;
 	border-right: 1px solid #e1e1e1;
 }
@@ -543,27 +562,33 @@
 .gjs-trt-color {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 10px;
 }
 
 .gjs-trt-color-hex {
-	width: 76px;
-	padding: 4px 6px;
-	border: 1px solid #e1e1e1;
-	border-radius: 4px;
-	font-size: 13px;
+	width: 84px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	font-size: 14px;
 	font-family: "Open Sans", sans-serif;
 	color: #000;
+	text-align: right;
+}
+
+.gjs-trt-color-hex:focus {
+	outline: none;
 }
 
 .gjs-trt-color-swatch {
 	display: block;
-	width: 22px;
-	height: 22px;
+	width: 36px;
+	height: 36px;
 	border: 1px solid #e1e1e1;
-	border-radius: 4px;
+	border-radius: 8px;
 	overflow: hidden;
 	cursor: pointer;
+	flex-shrink: 0;
 }
 
 .gjs-trt-color-swatch input[type="color"] {
@@ -581,12 +606,12 @@
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	gap: 8px;
+	gap: 10px;
 	width: 100%;
 }
 
 .gjs-trt-link-value {
-	font-size: 13px;
+	font-size: 14px;
 	color: #9a9a9a;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -602,11 +627,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 26px;
-	height: 26px;
+	width: 36px;
+	height: 36px;
 	padding: 0;
 	border: 1px solid #e1e1e1;
-	border-radius: 4px;
+	border-radius: 8px;
 	background-color: #fff;
 	color: #000;
 	cursor: pointer;

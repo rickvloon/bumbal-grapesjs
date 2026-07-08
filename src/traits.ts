@@ -27,34 +27,34 @@ const icon = (paths: string, viewBox = "0 0 24 24", size = 16) =>
 	`<svg width="${size}" height="${size}" viewBox="${viewBox}" fill="none" xmlns="http://www.w3.org/2000/svg">${paths}</svg>`;
 
 const dupIcon = icon(
-	'<path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="currentColor"/>'
+	'<path d="M18.7105 20.1818H8.86842V7.45455H18.7105M18.7105 5.63636H8.86842C8.39382 5.63636 7.93866 5.82792 7.60307 6.1689C7.26748 6.50987 7.07895 6.97233 7.07895 7.45455V20.1818C7.07895 20.664 7.26748 21.1265 7.60307 21.4675C7.93866 21.8084 8.39382 22 8.86842 22H18.7105C19.1851 22 19.6403 21.8084 19.9759 21.4675C20.3115 21.1265 20.5 20.664 20.5 20.1818V7.45455C20.5 6.97233 20.3115 6.50987 19.9759 6.1689C19.6403 5.82792 19.1851 5.63636 18.7105 5.63636ZM16.0263 2H5.28947C4.81488 2 4.35972 2.19156 4.02412 2.53253C3.68853 2.87351 3.5 3.33597 3.5 3.81818V16.5455H5.28947V3.81818H16.0263V2Z" fill="black"/>',
 );
 const trashIcon = icon(
-	'<path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="currentColor"/>'
+	'<path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="black"/>',
 );
 const closeIcon = icon(
-	'<path d="M18.3 5.71L12 12.01L5.7 5.71L4.29 7.12L10.59 13.42L4.29 19.72L5.7 21.13L12 14.83L18.3 21.13L19.71 19.72L13.41 13.42L19.71 7.12L18.3 5.71Z" fill="currentColor"/>'
+	'<path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black"/>',
 );
 const linkIcon = icon(
-	'<path d="M3.9 12C3.9 10.29 5.29 8.9 7 8.9H11V7H7C5.67392 7 4.40215 7.52678 3.46447 8.46447C2.52678 9.40215 2 10.6739 2 12C2 13.3261 2.52678 14.5979 3.46447 15.5355C4.40215 16.4732 5.67392 17 7 17H11V15.1H7C5.29 15.1 3.9 13.71 3.9 12ZM8 13H16V11H8V13ZM17 7H13V8.9H17C18.71 8.9 20.1 10.29 20.1 12C20.1 13.71 18.71 15.1 17 15.1H13V17H17C18.3261 17 19.5979 16.4732 20.5355 15.5355C21.4732 14.5979 22 13.3261 22 12C22 10.6739 21.4732 9.40215 20.5355 8.46447C19.5979 7.52678 18.3261 7 17 7Z" fill="currentColor"/>'
+	'<path d="M3.9 12C3.9 10.29 5.29 8.9 7 8.9H11V7H7C5.67392 7 4.40215 7.52678 3.46447 8.46447C2.52678 9.40215 2 10.6739 2 12C2 13.3261 2.52678 14.5979 3.46447 15.5355C4.40215 16.4732 5.67392 17 7 17H11V15.1H7C5.29 15.1 3.9 13.71 3.9 12ZM8 13H16V11H8V13ZM17 7H13V8.9H17C18.71 8.9 20.1 10.29 20.1 12C20.1 13.71 18.71 15.1 17 15.1H13V17H17C18.3261 17 19.5979 16.4732 20.5355 15.5355C21.4732 14.5979 22 13.3261 22 12C22 10.6739 21.4732 9.40215 20.5355 8.46447C19.5979 7.52678 18.3261 7 17 7Z" fill="black"/>',
 );
 
 const alignIcons: Record<string, string> = {
 	left: icon(
 		'<rect y="0" width="16" height="2" rx="1" fill="currentColor"/><rect y="5" width="10" height="2" rx="1" fill="currentColor"/><rect y="10" width="13" height="2" rx="1" fill="currentColor"/>',
-		"0 0 16 12"
+		"0 0 16 12",
 	),
 	center: icon(
 		'<rect x="0" y="0" width="16" height="2" rx="1" fill="currentColor"/><rect x="3" y="5" width="10" height="2" rx="1" fill="currentColor"/><rect x="1.5" y="10" width="13" height="2" rx="1" fill="currentColor"/>',
-		"0 0 16 12"
+		"0 0 16 12",
 	),
 	right: icon(
 		'<rect x="0" y="0" width="16" height="2" rx="1" fill="currentColor"/><rect x="6" y="5" width="10" height="2" rx="1" fill="currentColor"/><rect x="3" y="10" width="13" height="2" rx="1" fill="currentColor"/>',
-		"0 0 16 12"
+		"0 0 16 12",
 	),
 	justify: icon(
 		'<rect y="0" width="16" height="2" rx="1" fill="currentColor"/><rect y="5" width="16" height="2" rx="1" fill="currentColor"/><rect y="10" width="16" height="2" rx="1" fill="currentColor"/>',
-		"0 0 16 12"
+		"0 0 16 12",
 	),
 };
 
@@ -166,8 +166,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 				} else if (key === "strikethrough" || key === "underline") {
 					const token = key === "strikethrough" ? "line-through" : "underline";
 					const tokens = decorationTokens(styles["text-decoration"]);
-					const next =
-						tokens.indexOf(token) >= 0 ? tokens.filter((t) => t !== token) : tokens.concat(token);
+					const next = tokens.indexOf(token) >= 0 ? tokens.filter((t) => t !== token) : tokens.concat(token);
 					component.addStyle({ "text-decoration": next.length ? next.join(" ") : "none" });
 				}
 				sync();
@@ -192,7 +191,10 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-toggle-group";
 			wrap.innerHTML = values
-				.map((v) => `<button type="button" class="gjs-trt-toggle-btn" data-value="${v}" title="${v}">${alignIcons[v]}</button>`)
+				.map(
+					(v) =>
+						`<button type="button" class="gjs-trt-toggle-btn" data-value="${v}" title="${v}">${alignIcons[v]}</button>`,
+				)
 				.join("");
 
 			const sync = () => {
