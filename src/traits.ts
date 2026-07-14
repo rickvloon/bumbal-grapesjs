@@ -53,7 +53,7 @@ const cloudUploadIcon = icon(
 const infoIcon = icon(
 	'<path d="M6.5 4.5H5.5V3.5H6.5M6.5 8.5H5.5V5.5H6.5M6 1C5.34339 1 4.69321 1.12933 4.08658 1.3806C3.47995 1.63188 2.92876 2.00017 2.46447 2.46447C1.52678 3.40215 1 4.67392 1 6C1 7.32608 1.52678 8.59785 2.46447 9.53553C2.92876 9.99983 3.47995 10.3681 4.08658 10.6194C4.69321 10.8707 5.34339 11 6 11C7.32608 11 8.59785 10.4732 9.53553 9.53553C10.4732 8.59785 11 7.32608 11 6C11 5.34339 10.8707 4.69321 10.6194 4.08658C10.3681 3.47995 9.99983 2.92876 9.53553 2.46447C9.07124 2.00017 8.52005 1.63188 7.91342 1.3806C7.30679 1.12933 6.65661 1 6 1V1Z" fill="#666666"/>',
 	"0 0 24 24",
-	14,
+	24,
 );
 
 const alignIcons: Record<string, string> = {
@@ -613,7 +613,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		},
 		createLabel() {
 			const rawLabel = (this as any).model.get("label") || "";
-			return `<span class="gjs-trt-alt-label">${rawLabel}<span class="gjs-trt-alt-info" title="Shown to screen readers and when the image fails to load.">${infoIcon}</span></span>`;
+			return `<span class="gjs-trt-alt-label" style="display: flex; align-items: center; gap: 4px;">${rawLabel}<span class="gjs-trt-alt-info gjs-trt-tooltip" data-tooltip="Shown to screen readers and when the image fails to load.">${infoIcon}</span></span>`;
 		},
 		createInput({ component }: { component: Component }) {
 			const model = (this as any).model;
@@ -621,7 +621,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 			const input = document.createElement("input");
 			input.type = "text";
-			input.className = "gjs-trt-alt-input";
+			input.className = "gjs-trt-alt-input gjs-trt-text-input";
 
 			const sync = () => {
 				input.value = component.getAttributes()[name] || "";

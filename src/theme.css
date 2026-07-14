@@ -440,13 +440,6 @@
 	width: 100%;
 }
 
-/* The alt-text input has a label alongside it, but the default field-wrp
-   shrinks to fit content otherwise, leaving the input too narrow to use. */
-.gjs-field-wrp--alt-text {
-	flex: 1;
-	max-width: 220px;
-}
-
 .gjs-trt-heading-header {
 	display: flex;
 	align-items: center;
@@ -918,28 +911,62 @@
 }
 
 /* alt-text */
-.gjs-trt-alt-label {
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-}
 
-.gjs-trt-alt-info {
-	display: inline-flex;
-	color: #9a9a9a;
-	cursor: help;
-}
-
-.gjs-trt-alt-input {
+.gjs-trt-text-input {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 8px 10px;
-	border: 1px solid #e1e1e1;
-	border-radius: 8px;
-	font-size: 13px;
+	border: 1px solid #D9D9D9 !important;
+    background-color: #fff !important;
+	border-radius: 4px;
+    height: 40px;
+	font-size: 14px;
 	font-family: "Open Sans", sans-serif;
 	color: #000;
 }
+
+.gjs-trt-alt-label {
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.gjs-trt-alt-info {
+    cursor: pointer;
+}
+
+/* Custom tooltip instead of the native `title` attribute - the browser's
+   built-in tooltip has an unavoidable ~1s show delay we can't shorten. */
+.gjs-trt-tooltip {
+	position: relative;
+}
+
+.gjs-trt-tooltip::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	margin-bottom: 6px;
+	padding: 6px 8px;
+	width: max-content;
+	max-width: 200px;
+	background-color: #333;
+	color: #fff;
+	font-size: 11px;
+	font-family: "Open Sans", sans-serif;
+	line-height: 1.4;
+	white-space: normal;
+	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	z-index: 20;
+}
+
+.gjs-trt-tooltip:hover::after {
+	opacity: 1;
+	visibility: visible;
+}
+
 
 .gjs-trt-alt-input:focus {
 	outline: none;
