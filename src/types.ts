@@ -52,6 +52,25 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		},
 	} as any);
 
+	// The plain "Link" block is explicitly this type (see blocks.ts) - same
+	// style-driven traits and default look as "portal-link", but with a
+	// free-text "Link" trait (self href, since the component already is the
+	// <a>) instead of portal-link's fixed "Link to" dropdown.
+	domc.addType("link", {
+		model: {
+			defaults: {
+				stylable: false,
+				traits: [
+					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
+					{ type: "align-group", name: "text-align", label: "Button align", alignTarget: "parent" },
+					...styleTraits(),
+					{ type: "text-color", name: "bg-color", label: "Background colour", property: "background-color" },
+					{ type: "link", name: "link", label: "Link", wrap: false },
+				],
+			},
+		},
+	} as any);
+
 	// The button block renders as `<a class="button">`, so it's already its
 	// own <a> rather than something to wrap in one - this type layers the
 	// same style-driven traits as "text" on top of the built-in "link" type.
