@@ -67,6 +67,8 @@ const deriveTitle = (component: Component): string => {
 	if (tag === "h2") return "Heading 2";
 	if (tag === "h4" && classes.indexOf("subtitle") >= 0) return "Subtitle";
 	if (tag === "p") return "Paragraph";
+	if (tag === "a" && classes.indexOf("button") >= 0) return "Button";
+	if (component.get("type") === "portal-link") return "Portal link";
 	return component.getName();
 };
 
@@ -181,14 +183,24 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 	});
 
 	// Single-select group for `text-align`. Used for both "Text align" and
-	// "Button align" (only the trait's `label` differs between types).
+	// "Button align" (label differs, and "Button align" targets the parent
+	// container via `alignTarget: "parent"` - `text-align` on the <a> itself,
+	// an inline element, has no effect on the button's own position, only on
+	// its parent's alignment).
+	// NB: the option is named `alignTarget`, not `target` - GrapesJS's own
+	// Trait model reserves `target` for the associated Component and calls
+	// `.on()` on it, so a plain string there breaks every trait on the type.
 	(TraitManager.addType as any)("align-group", {
 		eventCapture: [],
 		onRender() {
+			const alignTarget = (this as any).model.get("alignTarget") === "parent" ? this.target.parent() || this.target : this.target;
 			// @ts-ignore
-			this.listenTo(this.target, "change:style", () => this.__syncAlign && this.__syncAlign());
+			this.listenTo(alignTarget, "change:style", () => this.__syncAlign && this.__syncAlign());
 		},
 		createInput({ component }: { component: Component }) {
+			const useParent: boolean = (this as any).model.get("alignTarget") === "parent";
+			const alignTarget: Component = useParent ? component.parent() || component : component;
+
 			const values = ["left", "center", "right", "justify"];
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-toggle-group";
@@ -200,7 +212,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 				.join("");
 
 			const sync = () => {
-				const current = component.getStyle()["text-align"] || "left";
+				const current = alignTarget.getStyle()["text-align"] || "left";
 				wrap.querySelectorAll<HTMLElement>(".gjs-trt-toggle-btn").forEach((btn) => {
 					btn.classList.toggle("gjs-trt-toggle-btn--active", btn.dataset.value === current);
 				});
@@ -209,7 +221,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			wrap.addEventListener("click", (e) => {
 				const btn = (e.target as HTMLElement).closest<HTMLElement>(".gjs-trt-toggle-btn");
 				if (!btn || !btn.dataset.value) return;
-				component.addStyle({ "text-align": btn.dataset.value });
+				alignTarget.addStyle({ "text-align": btn.dataset.value });
 				sync();
 			});
 
@@ -277,8 +289,10 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 		},
 	});
 
-	// Text colour, backed by a plain hex input + native colour swatch so it
+	// Colour picker, backed by a plain hex input + native colour swatch so it
 	// doesn't depend on GrapesJS's internal (non-exported) colour picker.
+	// Reads/writes `property` from the trait config (defaults to `color`), so
+	// the same type backs both "Text colour" and "Background colour".
 	(TraitManager.addType as any)("text-color", {
 		eventCapture: [],
 		onRender() {
@@ -286,6 +300,8 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			this.listenTo(this.target, "change:style", () => this.__syncColor && this.__syncColor());
 		},
 		createInput({ component }: { component: Component }) {
+			const property: string = (this as any).model.get("property") || "color";
+
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-color";
 			wrap.innerHTML = `
@@ -297,14 +313,14 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			const colorInput = wrap.querySelector('input[type="color"]') as HTMLInputElement;
 
 			const sync = () => {
-				const value = component.getStyle()["color"] || "#000000";
+				const value = component.getStyle()[property] || "#000000";
 				hexInput.value = value;
 				swatch.style.backgroundColor = value;
 				if (/^#[0-9a-f]{6}$/i.test(value)) colorInput.value = value;
 			};
 
 			const apply = (value: string) => {
-				component.addStyle({ color: value });
+				component.addStyle({ [property]: value });
 				sync();
 			};
 

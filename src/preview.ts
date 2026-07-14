@@ -1,3 +1,4 @@
+/// <reference path="./images.d.ts" />
 import type { Editor } from "grapesjs";
 import { PluginOptions } from ".";
 // @ts-ignore
