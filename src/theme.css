@@ -433,6 +433,13 @@
     flex-grow: inherit;
 }
 
+/* The image uploader has no label (full-width dropzone), so its row needs
+   to actually stretch instead of shrinking to the control's own width. */
+.gjs-field-wrp--image-upload {
+	flex: 1;
+	width: 100%;
+}
+
 .gjs-trt-heading-header {
 	display: flex;
 	align-items: center;
@@ -790,4 +797,52 @@
 .gjs-trt-select-option--active:hover {
 	background-color: var(--gjs-quaternary-color);
 	color: #fff;
+}
+
+/* Image upload dropzone */
+.gjs-trt-upload {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 28px 16px;
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	text-align: center;
+    cursor:pointer;
+}
+
+.gjs-trt-upload--dragover {
+	background-color: #e6e6e6;
+}
+
+.gjs-trt-upload-icon {
+	display: flex;
+	color: #b2b2b2;
+}
+
+.gjs-trt-upload-thumb {
+	max-width: 120px;
+	max-height: 80px;
+	border-radius: 4px;
+	object-fit: contain;
+}
+
+.gjs-trt-upload-text {
+	font-size: 13px;
+	color: #9a9a9a;
+}
+
+.gjs-trt-upload-choose {
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: var(--gjs-quaternary-color);
+	text-decoration: underline;
+	font-size: 13px;
+	font-family: "Open Sans", sans-serif;
+	cursor: pointer;
 }

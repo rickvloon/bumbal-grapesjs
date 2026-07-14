@@ -43,6 +43,11 @@ const chevronDownIcon = icon(
 	"0 0 10 6",
 	10,
 );
+const cloudUploadIcon = icon(
+	'<path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" fill="currentColor"/>',
+	"0 0 24 24",
+	32,
+);
 
 const alignIcons: Record<string, string> = {
 	left: icon(
@@ -518,6 +523,71 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			(this as any).__selectOutsideHandler = outsideHandler;
 
 			(this as any).__syncSelect = sync;
+			sync();
+			return wrap;
+		},
+	});
+
+	// Drag-and-drop / choose-file image upload, replacing GrapesJS's default
+	// double-click-to-open-Asset-Manager modal (disabled on the "image" type
+	// in types.ts) with an inline dropzone in the traits panel instead.
+	(TraitManager.addType as any)("image-upload", {
+		eventCapture: [],
+		onRender() {
+			// @ts-ignore
+			this.listenTo(this.target, "change:src", () => this.__syncUpload && this.__syncUpload());
+		},
+		createInput({ component }: { component: Component }) {
+			const wrap = document.createElement("div");
+			wrap.className = "gjs-trt-upload";
+			wrap.innerHTML = `
+				<input type="file" accept="image/*" class="gjs-trt-upload-input" hidden />
+				<div class="gjs-trt-upload-icon">${cloudUploadIcon}</div>
+				<img class="gjs-trt-upload-thumb" hidden />
+				<div class="gjs-trt-upload-text">Drag and drop or <button type="button" class="gjs-trt-upload-choose">Choose file</button> to upload</div>
+			`;
+
+			const fileInput = wrap.querySelector(".gjs-trt-upload-input") as HTMLInputElement;
+			const iconEl = wrap.querySelector(".gjs-trt-upload-icon") as HTMLElement;
+			const thumbEl = wrap.querySelector(".gjs-trt-upload-thumb") as HTMLImageElement;
+
+			const readFile = (file: File | null | undefined) => {
+				if (!file || file.type.indexOf("image/") !== 0) return;
+				const reader = new FileReader();
+				reader.onload = () => {
+					if (typeof reader.result === "string") component.set("src", reader.result);
+				};
+				reader.readAsDataURL(file);
+			};
+
+			const sync = () => {
+				const hasImage = !(component as any).isDefaultSrc?.();
+				iconEl.hidden = hasImage;
+				thumbEl.hidden = !hasImage;
+				if (hasImage) thumbEl.src = (component as any).getSrcResult ? (component as any).getSrcResult() : component.get("src");
+			};
+
+			// "Choose file" is just a styled button inside `wrap` - its click
+			// bubbles up, so a single handler on the whole box covers both.
+			wrap.addEventListener("click", () => fileInput.click());
+
+			fileInput.addEventListener("change", () => {
+				readFile(fileInput.files?.[0]);
+				fileInput.value = "";
+			});
+
+			wrap.addEventListener("dragover", (e) => {
+				e.preventDefault();
+				wrap.classList.add("gjs-trt-upload--dragover");
+			});
+			wrap.addEventListener("dragleave", () => wrap.classList.remove("gjs-trt-upload--dragover"));
+			wrap.addEventListener("drop", (e) => {
+				e.preventDefault();
+				wrap.classList.remove("gjs-trt-upload--dragover");
+				readFile(e.dataTransfer?.files?.[0]);
+			});
+
+			(this as any).__syncUpload = sync;
 			sync();
 			return wrap;
 		},

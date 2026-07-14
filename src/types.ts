@@ -135,6 +135,25 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		},
 	} as any);
 
+	// Override the built-in "image" type (no `extend`/`extendView` needed -
+	// reusing the same id extends the existing model/view automatically):
+	// swap the "alt" trait for our own drag-and-drop uploader, and disable
+	// the default double-click-to-open-Asset-Manager behaviour so the
+	// upload happens inline in the traits panel instead of via a popup.
+	domc.addType("image", {
+		view: {
+			onActive(ev: Event) {
+				ev?.stopPropagation();
+			},
+		},
+		model: {
+			defaults: {
+				stylable: false,
+				traits: [{ type: "image-upload", name: "src", label: false }],
+			},
+		},
+	} as any);
+
 	// Strip "id" and "title" from every other registered type's traits,
 	// whatever they currently are (string names or trait config objects),
 	// instead of hardcoding a reduced list per type.
