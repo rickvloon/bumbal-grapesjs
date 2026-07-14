@@ -22,7 +22,7 @@ const previewActivity = {
 
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
-	const { cmdInlineHtml } = opts;
+	const { cmdInlineHtml, onUpdate } = opts;
 	let latestHtml = "";
 	let isPreview = false;
 
@@ -40,6 +40,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 	editor.on("update", () => {
 		if (isPreview) return;
 		latestHtml = editor.runCommand(cmdInlineHtml) as string;
+		onUpdate(latestHtml);
 	});
 
 	editor.on("command:run:before:preview", () => {

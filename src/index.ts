@@ -171,6 +171,15 @@ export interface PluginOptions {
    * @default embeds the file as a base64 data URI
    */
   uploadFile?: UploadFileFn;
+
+  /**
+   * Called with the current inlined HTML whenever the canvas content
+   * changes - eg. to save/snapshot it for restoring later. Not called for
+   * updates that happen while in preview mode (those reflect the
+   * Twig-rendered output, not real edits).
+   * @default undefined
+   */
+  onUpdate?: (html: string) => void;
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
@@ -256,6 +265,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
         instance: "stage"
     },
     uploadFile: defaultUploadFile,
+    onUpdate: () => {},
     ...opts,
   };
 
