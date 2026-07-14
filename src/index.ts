@@ -136,6 +136,13 @@ export interface PluginOptions {
    * Each entry maps a display name to its twig code.
    */
   variables?: Record<string, Record<string, string>>;
+
+  /**
+   * Bumbal-specific options.
+   */
+  bumbalOptions?: {
+    instance?: string;
+  };
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
@@ -204,6 +211,9 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
         'Assignment number': '{{assignment.nr}}',
         'Account name': '{{assignment.account_name}}',
       },
+    },
+    bumbalOptions: {
+        instance: "stage"
     },
     ...opts,
   };

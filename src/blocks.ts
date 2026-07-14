@@ -344,7 +344,9 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 				{
 					type: "portal-link",
 					content: "Portal Link",
-					attributes: { href: "/afspraken/?token={{uuid}}&zipcode={{address.zipcode}}" },
+					attributes: {
+						href: `https://${opts.bumbalOptions.instance}.bumbal.eu/afspraken/?token={{uuid}}&zipcode={{address.zipcode}}`,
+					},
 					style: {
 						display: "inline-block",
 						"font-size": "14px",

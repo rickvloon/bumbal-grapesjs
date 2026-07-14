@@ -387,6 +387,10 @@
 
 /* Traits */
 
+.gjs-trt-header {
+    display: none;
+}
+
 .gjs-sm-properties {
     flex-direction: column;
 }

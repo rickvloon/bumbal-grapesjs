@@ -31,8 +31,9 @@ const styleTraits = () => [
 	{ type: "text-color", name: "text-color", label: "Text colour" },
 ];
 
-export default (editor: Editor, _opts: Required<PluginOptions>) => {
+export default (editor: Editor, opts: Required<PluginOptions>) => {
 	const domc = editor.DomComponents;
+	const portalBaseUrl = `https://${opts.bumbalOptions.instance}.bumbal.eu`;
 
 	domc.addType("text", {
 		model: {
@@ -87,8 +88,14 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 						name: "href",
 						label: "Link to",
 						options: [
-							{ id: "/afspraken/?token={{uuid}}&zipcode={{address.zipcode}}", name: "Appointment portal" },
-							{ id: "/eta/?token={{uuid}}&zipcode={{address.zipcode}}", name: "Client portal" },
+							{
+								id: `${portalBaseUrl}/afspraken/?token={{uuid}}&zipcode={{address.zipcode}}`,
+								name: "Appointment portal",
+							},
+							{
+								id: `${portalBaseUrl}/eta/?token={{uuid}}&zipcode={{address.zipcode}}`,
+								name: "Client portal",
+							},
 						],
 					},
 					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
