@@ -137,9 +137,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 	// Override the built-in "image" type (no `extend`/`extendView` needed -
 	// reusing the same id extends the existing model/view automatically):
-	// swap the "alt" trait for our own drag-and-drop uploader, and disable
-	// the default double-click-to-open-Asset-Manager behaviour so the
-	// upload happens inline in the traits panel instead of via a popup.
+	// swap the default ["alt"] trait for our own drag-and-drop uploader plus
+	// alignment/alt-text/link traits, and disable the default
+	// double-click-to-open-Asset-Manager behaviour so the upload happens
+	// inline in the traits panel instead of via a popup.
 	domc.addType("image", {
 		view: {
 			onActive(ev: Event) {
@@ -149,7 +150,12 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		model: {
 			defaults: {
 				stylable: false,
-				traits: [{ type: "image-upload", name: "src", label: false }],
+				traits: [
+					{ type: "image-upload", name: "src", label: false },
+					{ type: "align-group", name: "text-align", label: "Image align", alignTarget: "parent" },
+					{ type: "alt-text", name: "alt", label: "alt-text" },
+					{ type: "link", name: "link", label: "Link", wrap: "parent" },
+				],
 			},
 		},
 	} as any);

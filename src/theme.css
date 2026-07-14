@@ -440,6 +440,13 @@
 	width: 100%;
 }
 
+/* The alt-text input has a label alongside it, but the default field-wrp
+   shrinks to fit content otherwise, leaving the input too narrow to use. */
+.gjs-field-wrp--alt-text {
+	flex: 1;
+	max-width: 220px;
+}
+
 .gjs-trt-heading-header {
 	display: flex;
 	align-items: center;
@@ -799,36 +806,40 @@
 	color: #fff;
 }
 
-/* Image upload dropzone */
+/* Image upload: dropzone (empty) / file row (filled) */
 .gjs-trt-upload {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.gjs-trt-upload-empty {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	width: 100%;
-	box-sizing: border-box;
 	padding: 28px 16px;
 	border-radius: 8px;
 	background-color: #f0f0f0;
 	text-align: center;
-    cursor:pointer;
+	cursor: pointer;
 }
 
-.gjs-trt-upload--dragover {
+/* The `hidden` attribute needs to win over the `display: flex` above -
+   otherwise both the dropzone and the file row can end up visible at once. */
+.gjs-trt-upload-empty[hidden],
+.gjs-trt-upload-file[hidden] {
+	display: none;
+}
+
+.gjs-trt-upload--dragover .gjs-trt-upload-empty,
+.gjs-trt-upload--dragover .gjs-trt-upload-file {
 	background-color: #e6e6e6;
 }
 
 .gjs-trt-upload-icon {
 	display: flex;
 	color: #b2b2b2;
-}
-
-.gjs-trt-upload-thumb {
-	max-width: 120px;
-	max-height: 80px;
-	border-radius: 4px;
-	object-fit: contain;
 }
 
 .gjs-trt-upload-text {
@@ -845,4 +856,92 @@
 	font-size: 13px;
 	font-family: "Open Sans", sans-serif;
 	cursor: pointer;
+}
+
+.gjs-trt-upload-file {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	border-radius: 8px;
+}
+
+.gjs-trt-upload-thumb {
+	width: 44px;
+	height: 44px;
+	border: 1px solid #e1e1e1;
+	border-radius: 6px;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+
+.gjs-trt-upload-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.gjs-trt-upload-name {
+	font-size: 13px;
+	color: #000;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.gjs-trt-upload-size {
+	font-size: 12px;
+	color: #9a9a9a;
+}
+
+.gjs-trt-upload-delete {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	flex-shrink: 0;
+	border: 1px solid #D9D9D9;
+	border-radius: 8px;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+.gjs-trt-upload-delete svg {
+    color: #EC3030;
+    width: 24px;
+    height: 24px;
+}
+
+.gjs-trt-upload-delete:hover {
+	border-color: var(--gjs-quaternary-color);
+	color: var(--gjs-quaternary-color);
+	background-color: #eaf3fd;
+}
+
+/* alt-text */
+.gjs-trt-alt-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.gjs-trt-alt-info {
+	display: inline-flex;
+	color: #9a9a9a;
+	cursor: help;
+}
+
+.gjs-trt-alt-input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 8px 10px;
+	border: 1px solid #e1e1e1;
+	border-radius: 8px;
+	font-size: 13px;
+	font-family: "Open Sans", sans-serif;
+	color: #000;
+}
+
+.gjs-trt-alt-input:focus {
+	outline: none;
+	border-color: var(--gjs-quaternary-color);
 }
