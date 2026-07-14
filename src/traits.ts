@@ -87,7 +87,7 @@ const deriveTitle = (component: Component): string => {
 	return component.getName();
 };
 
-export default (editor: Editor, _opts: Required<PluginOptions>) => {
+export default (editor: Editor, opts: Required<PluginOptions>) => {
 	const { TraitManager } = editor;
 
 	// Render the header row (component name + duplicate/delete/close) into
@@ -552,13 +552,15 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			const iconEl = wrap.querySelector(".gjs-trt-upload-icon") as HTMLElement;
 			const thumbEl = wrap.querySelector(".gjs-trt-upload-thumb") as HTMLImageElement;
 
-			const readFile = (file: File | null | undefined) => {
-				if (!file || file.type.indexOf("image/") !== 0) return;
-				const reader = new FileReader();
-				reader.onload = () => {
-					if (typeof reader.result === "string") component.set("src", reader.result);
-				};
-				reader.readAsDataURL(file);
+			// Delegates to `opts.uploadFile` (base64-embed by default, or a
+			// consumer-supplied handler - eg. one that uploads to Bumbal's own
+			// backend and returns a real hosted URL) rather than reading the
+			// file ourselves, so this box doesn't have to know how uploads work.
+			const handleFiles = (e: Event | DragEvent) => {
+				opts.uploadFile(e, (res) => {
+					const asset = res?.data?.[0];
+					if (asset?.src) component.set("src", asset.src);
+				});
 			};
 
 			const sync = () => {
@@ -572,8 +574,8 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			// bubbles up, so a single handler on the whole box covers both.
 			wrap.addEventListener("click", () => fileInput.click());
 
-			fileInput.addEventListener("change", () => {
-				readFile(fileInput.files?.[0]);
+			fileInput.addEventListener("change", (e) => {
+				handleFiles(e);
 				fileInput.value = "";
 			});
 
@@ -585,7 +587,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			wrap.addEventListener("drop", (e) => {
 				e.preventDefault();
 				wrap.classList.remove("gjs-trt-upload--dragover");
-				readFile(e.dataTransfer?.files?.[0]);
+				handleFiles(e);
 			});
 
 			(this as any).__syncUpload = sync;

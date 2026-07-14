@@ -12,6 +12,27 @@ import loadTypes from './types';
 import loadPreview from './preview';
 import './theme.css';
 
+/**
+ * An asset returned by an `UploadFileFn` upload.
+ */
+export interface UploadedAsset {
+  src: string;
+  name?: string;
+}
+
+/**
+ * Custom handler for uploading files dropped/selected in the image
+ * uploader trait, matching GrapesJS's own `FileUploader.uploadFile`
+ * signature - receives the native drag/drop or file-input change event,
+ * and an optional callback to invoke with `{ data: [...] }` once the
+ * upload completes. The default implementation just embeds the file as a
+ * base64 data URI; pass your own to upload it somewhere real instead.
+ */
+export type UploadFileFn = (
+  e: Event | DragEvent,
+  clb?: (result: { data: UploadedAsset[] }) => void
+) => void | Promise<void>;
+
 export interface PluginOptions {
   /**
    * Which blocks to add.
@@ -143,9 +164,28 @@ export interface PluginOptions {
   bumbalOptions?: {
     instance?: string;
   };
+
+  /**
+   * Custom handler for uploading files dropped/selected in the image
+   * uploader trait. See `UploadFileFn`.
+   * @default embeds the file as a base64 data URI
+   */
+  uploadFile?: UploadFileFn;
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
+
+const defaultUploadFile: UploadFileFn = (e, clb) => {
+  const dt = (e as DragEvent).dataTransfer;
+  const file = dt ? dt.files?.[0] : (e.target as HTMLInputElement)?.files?.[0];
+  if (!file || file.type.indexOf('image/') !== 0) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (typeof reader.result === 'string') clb?.({ data: [{ src: reader.result, name: file.name }] });
+  };
+  reader.readAsDataURL(file);
+};
 
 const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}) => {
   let config = editor.getConfig();
@@ -215,6 +255,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     bumbalOptions: {
         instance: "stage"
     },
+    uploadFile: defaultUploadFile,
     ...opts,
   };
 
