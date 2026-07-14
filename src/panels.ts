@@ -1,4 +1,4 @@
-import type { Editor } from "grapesjs";
+import type { Editor, Component } from "grapesjs";
 import { PluginOptions } from ".";
 import { cmdClear, cmdDeviceDesktop, cmdDeviceMobile } from "./consts";
 
@@ -107,6 +107,22 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		editor.on("component:selected", () => {
 			editor.getSelected() && showView(openTraitManager);
 		});
+
+	// GrapesJS's canvas Sorter clears the current selection the moment any
+	// native drag (eg. a file being dragged toward the image uploader in the
+	// traits panel, or the cursor merely passing over the canvas on the way
+	// there) enters the canvas iframe - and since the built-in Trait Manager
+	// only renders its content when exactly one component is selected, that
+	// hides the whole panel (dropzone included) mid-drag, before the drop
+	// ever reaches it. Reselecting here runs synchronously in the same tick
+	// as the deselect, so the panel never actually disappears on screen.
+	let lastSelected: Component | undefined;
+	editor.on("component:selected", () => {
+		lastSelected = editor.getSelected();
+	});
+	editor.on("canvas:dragenter", () => {
+		lastSelected && editor.select(lastSelected);
+	});
 
 	// Deleting a component (canvas toolbar, keyboard shortcut, or the custom
 	// trait-header delete button) always leaves nothing selected - switch the
