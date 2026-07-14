@@ -38,6 +38,11 @@ const closeIcon = icon(
 const linkIcon = icon(
 	'<path d="M3.9 12C3.9 10.29 5.29 8.9 7 8.9H11V7H7C5.67392 7 4.40215 7.52678 3.46447 8.46447C2.52678 9.40215 2 10.6739 2 12C2 13.3261 2.52678 14.5979 3.46447 15.5355C4.40215 16.4732 5.67392 17 7 17H11V15.1H7C5.29 15.1 3.9 13.71 3.9 12ZM8 13H16V11H8V13ZM17 7H13V8.9H17C18.71 8.9 20.1 10.29 20.1 12C20.1 13.71 18.71 15.1 17 15.1H13V17H17C18.3261 17 19.5979 16.4732 20.5355 15.5355C21.4732 14.5979 22 13.3261 22 12C22 10.6739 21.4732 9.40215 20.5355 8.46447C19.5979 7.52678 18.3261 7 17 7Z" fill="black"/>',
 );
+const chevronDownIcon = icon(
+	'<path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+	"0 0 10 6",
+	10,
+);
 
 const alignIcons: Record<string, string> = {
 	left: icon(
@@ -429,6 +434,86 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 			(this as any).__linkOutsideHandler = outsideHandler;
 
 			(this as any).__syncLink = sync;
+			sync();
+			return wrap;
+		},
+	});
+
+	// Dropdown backed by a fixed list of options (`name`/`options` on the
+	// trait config, same shape GrapesJS's native "select" trait uses), but
+	// rendered as a custom button + popover instead of a native <select> -
+	// browsers give almost no CSS control over native option lists (no
+	// rounded popup, no custom hover/selected row colours), so matching the
+	// rest of this panel's look requires building it ourselves.
+	(TraitManager.addType as any)("custom-select", {
+		eventCapture: [],
+		onRender() {
+			// @ts-ignore
+			this.listenTo(this.target, "change:attributes", () => this.__syncSelect && this.__syncSelect());
+		},
+		removed() {
+			// @ts-ignore
+			this.__selectOutsideHandler && document.removeEventListener("click", this.__selectOutsideHandler);
+		},
+		createInput({ component }: { component: Component }) {
+			const model = (this as any).model;
+			const name: string = model.get("name");
+			const options: Array<{ id?: string; value?: string; name: string }> = model.get("options") || [];
+			const valueOf = (opt: { id?: string; value?: string }) => (opt.value !== undefined ? opt.value : opt.id) || "";
+
+			const wrap = document.createElement("div");
+			wrap.className = "gjs-trt-select";
+			wrap.innerHTML = `
+				<button type="button" class="gjs-trt-select-btn">
+					<span class="gjs-trt-select-value"></span>
+					${chevronDownIcon}
+				</button>
+				<div class="gjs-trt-select-popover" hidden>
+					${options
+						.map(
+							(opt) =>
+								`<div class="gjs-trt-select-option" data-value="${valueOf(opt).replace(/"/g, "&quot;")}">${opt.name}</div>`,
+						)
+						.join("")}
+				</div>
+			`;
+
+			const btn = wrap.querySelector(".gjs-trt-select-btn") as HTMLElement;
+			const valueEl = wrap.querySelector(".gjs-trt-select-value") as HTMLElement;
+			const popover = wrap.querySelector(".gjs-trt-select-popover") as HTMLElement;
+			const optionEls = Array.from(wrap.querySelectorAll<HTMLElement>(".gjs-trt-select-option"));
+
+			const closePopover = () => {
+				popover.hidden = true;
+			};
+
+			const sync = () => {
+				const current = component.getAttributes()[name];
+				const matched = options.find((opt) => valueOf(opt) === current);
+				valueEl.textContent = matched ? matched.name : "";
+				optionEls.forEach((el) => el.classList.toggle("gjs-trt-select-option--active", el.dataset.value === current));
+			};
+
+			btn.addEventListener("click", (e) => {
+				e.stopPropagation();
+				popover.hidden = !popover.hidden;
+			});
+
+			optionEls.forEach((el) => {
+				el.addEventListener("click", () => {
+					component.addAttributes({ [name]: el.dataset.value });
+					sync();
+					closePopover();
+				});
+			});
+
+			const outsideHandler = (e: MouseEvent) => {
+				if (!wrap.contains(e.target as Node)) closePopover();
+			};
+			document.addEventListener("click", outsideHandler);
+			(this as any).__selectOutsideHandler = outsideHandler;
+
+			(this as any).__syncSelect = sync;
 			sync();
 			return wrap;
 		},

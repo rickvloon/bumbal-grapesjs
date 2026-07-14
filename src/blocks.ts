@@ -352,6 +352,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 						"background-color": "#006FBF",
 						padding: "10px 20px",
 						"border-radius": "4px",
+						"text-decoration": "none",
 					},
 				},
 			],
@@ -369,6 +370,6 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 		// by setting `text-align` on its parent, since the anchor itself is
 		// inline) has a dedicated container instead of fighting over
 		// whatever cell it happens to be dropped into.
-		content: '<div style="text-align: center;"><a class="button" style="display: inline-block; font-size: 14px; color: #ffffff; background-color: #006FBF; padding: 10px 20px; border-radius: 4px;">Button Text</a></div>',
+		content: '<div style="text-align: center;"><a class="button" style="display: inline-block; font-size: 14px; color: #ffffff; background-color: #006FBF; padding: 10px 20px; border-radius: 4px; text-decoration: none;">Button Text</a></div>',
 	});
 }

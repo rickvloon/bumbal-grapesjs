@@ -83,7 +83,7 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 				stylable: false,
 				traits: [
 					{
-						type: "select",
+						type: "custom-select",
 						name: "href",
 						label: "Link to",
 						options: [
