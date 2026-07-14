@@ -165,7 +165,6 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 		editor.on("command:run:before:preview", () => {
 			stopPreviewBtn.style.display = "flex";
-            console.log("here")
 		});
 		editor.on("command:stop:before:preview", () => {
 			stopPreviewBtn.style.display = "none";

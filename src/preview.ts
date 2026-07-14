@@ -40,6 +40,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 	editor.on("update", () => {
 		if (isPreview) return;
 		latestHtml = editor.runCommand(cmdInlineHtml) as string;
+        console.log('here')
 		onUpdate(latestHtml);
 	});
 

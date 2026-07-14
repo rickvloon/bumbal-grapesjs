@@ -372,9 +372,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.merge-section:hover .merge-submenu {
-  display: block;
-}
 
 .merge-tag-item {
   padding: 8px 10px;

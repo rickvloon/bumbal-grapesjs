@@ -104,6 +104,12 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		const menu = document.createElement("div");
 		menu.className = "merge-menu";
 
+		// Tracks every section's submenu + pending close timer so opening one
+		// can immediately close all the others - otherwise, hovering straight
+		// from one section into the next would show the new submenu while the
+		// old one is still mid-way through its own close delay, overlapping.
+		const submenuEntries: { submenu: HTMLElement; closeTimer?: ReturnType<typeof setTimeout> }[] = [];
+
 		mergeTagSections.forEach((section) => {
 			const sectionEl = document.createElement("div");
 			sectionEl.className = "merge-section";
@@ -126,6 +132,34 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 				submenu.appendChild(tagEl);
 			});
+
+			// Driven by JS with a short close delay rather than pure CSS
+			// `:hover` - the submenu sits to the side with a small gap, so any
+			// slight vertical drift while crossing that gap would otherwise
+			// exit the section's hover box and instantly close the submenu
+			// before the cursor even reaches it.
+			const entry: (typeof submenuEntries)[number] = { submenu };
+			submenuEntries.push(entry);
+
+			const showSubmenu = () => {
+				clearTimeout(entry.closeTimer);
+				submenuEntries.forEach((other) => {
+					if (other === entry) return;
+					clearTimeout(other.closeTimer);
+					other.submenu.style.display = "none";
+				});
+				submenu.style.display = "block";
+			};
+			const scheduleHideSubmenu = () => {
+				clearTimeout(entry.closeTimer);
+				entry.closeTimer = setTimeout(() => {
+					submenu.style.display = "none";
+				}, 300);
+			};
+			sectionEl.addEventListener("mouseenter", showSubmenu);
+			sectionEl.addEventListener("mouseleave", scheduleHideSubmenu);
+			submenu.addEventListener("mouseenter", showSubmenu);
+			submenu.addEventListener("mouseleave", scheduleHideSubmenu);
 
 			sectionEl.appendChild(submenu);
 			menu.appendChild(sectionEl);
