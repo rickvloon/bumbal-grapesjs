@@ -254,7 +254,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 </svg>
 `,
 		content: `
-<table style="box-sizing: border-box; width: 100%" width="100%">
+<table class="np-table packageline-table" style="box-sizing: border-box; width: 100%" width="100%">
 <tbody>
 <!--{% for item in package_lines %}-->
     <tr><td><span>{{item.nr_of_packages}} x {{item.description}}</span></td></tr>
@@ -272,7 +272,7 @@ export default function (editor: Editor, opts: Required<PluginOptions>) {
 </svg>
 `,
 		content: `
-<table style="box-sizing: border-box; width: 100%" width="100%">
+<table class="np-table notes-table" style="box-sizing: border-box; width: 100%" width="100%">
 <tbody>
 <!--{% for note in notes %}-->
     <tr><td><span>{{note.title}}</span></td></tr>

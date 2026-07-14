@@ -74,6 +74,10 @@ const deriveTitle = (component: Component): string => {
 	if (tag === "p") return "Paragraph";
 	if (tag === "a" && classes.indexOf("button") >= 0) return "Button";
 	if (component.get("type") === "portal-link") return "Portal link";
+	if (component.get("type") === "notes-packageline") {
+		if (classes.indexOf("notes-table") >= 0) return "Notes";
+		if (classes.indexOf("packageline-table") >= 0) return "Packagelines";
+	}
 	return component.getName();
 };
 

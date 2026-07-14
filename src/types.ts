@@ -2,34 +2,37 @@ import type { Editor } from "grapesjs";
 import { PluginOptions } from ".";
 import { weightNames } from "./traits";
 
-// Font size/weight + text colour traits shared by "text", "button" and
-// "portal-link" - kept in one place so the three types can't drift apart.
-const styleTraits = () => [
-	{
-		type: "stepper",
-		name: "font-size",
-		label: "Font size",
-		property: "font-size",
-		unit: "px",
-		min: 8,
-		max: 96,
-		step: 1,
-		default: 16,
-	},
-	{
-		type: "stepper",
-		name: "font-weight",
-		label: "Font weight",
-		property: "font-weight",
-		unit: "",
-		min: 100,
-		max: 900,
-		step: 100,
-		default: 400,
-		format: (value: number) => weightNames[value] || String(value),
-	},
-	{ type: "text-color", name: "text-color", label: "Text colour" },
-];
+// Font size/weight + text colour traits shared across several types - kept
+// in one place so they can't drift apart from each other.
+const fontSizeTrait = () => ({
+	type: "stepper",
+	name: "font-size",
+	label: "Font size",
+	property: "font-size",
+	unit: "px",
+	min: 8,
+	max: 96,
+	step: 1,
+	default: 16,
+});
+
+const fontWeightTrait = () => ({
+	type: "stepper",
+	name: "font-weight",
+	label: "Font weight",
+	property: "font-weight",
+	unit: "",
+	min: 100,
+	max: 900,
+	step: 100,
+	default: 400,
+	format: (value: number) => weightNames[value] || String(value),
+});
+
+const textColorTrait = () => ({ type: "text-color", name: "text-color", label: "Text colour" });
+
+// "text", "button" and "portal-link" all get font size + weight + colour.
+const styleTraits = () => [fontSizeTrait(), fontWeightTrait(), textColorTrait()];
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
 	const domc = editor.DomComponents;
@@ -102,6 +105,31 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 					{ type: "align-group", name: "text-align", label: "Button align", alignTarget: "parent" },
 					...styleTraits(),
 					{ type: "text-color", name: "bg-color", label: "Background colour", property: "background-color" },
+				],
+			},
+		},
+	} as any);
+
+	// The Packageline and Notes blocks are both a plain `<table class="np-table ...">`
+	// (see blocks.ts) - Text align/Font size/Text colour set here on the table
+	// itself cascade down to the `<span>`s in every row via normal CSS
+	// inheritance, so one set of traits covers both blocks. The panel header
+	// still shows "Notes" vs "Packagelines" separately - see deriveTitle,
+	// which keys off the extra "notes-table"/"packageline-table" class.
+	domc.addType("notes-packageline", {
+		extend: "table",
+		isComponent: (el: HTMLElement) => {
+			if (el.tagName === "TABLE" && el.classList && el.classList.contains("np-table")) {
+				return { type: "notes-packageline" };
+			}
+		},
+		model: {
+			defaults: {
+				stylable: false,
+				traits: [
+					{ type: "align-group", name: "text-align", label: "Text align" },
+					fontSizeTrait(),
+					textColorTrait(),
 				],
 			},
 		},
