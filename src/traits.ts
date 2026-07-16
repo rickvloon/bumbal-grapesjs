@@ -761,4 +761,4 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 	});
 };
 
-export { weightNames };
+export { weightNames, alignIcons };

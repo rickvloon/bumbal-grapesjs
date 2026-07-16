@@ -10,6 +10,7 @@ import loadVariables from './variables';
 import loadTraits from './traits';
 import loadTypes from './types';
 import loadPreview from './preview';
+import loadRte from './rte';
 import './theme.css';
 
 /**
@@ -320,6 +321,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
   loadDevices(editor, options);
   loadVariables(editor, options);
   loadPreview(editor, options);
+  loadRte(editor, options);
 };
 
 export default plugin;
