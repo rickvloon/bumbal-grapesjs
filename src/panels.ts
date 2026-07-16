@@ -1,6 +1,7 @@
 import type { Editor, Component } from "grapesjs";
 import { PluginOptions } from ".";
 import { cmdClear, cmdDeviceDesktop, cmdDeviceMobile } from "./consts";
+import { t } from "./i18n";
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
 	const { Panels } = editor;
@@ -159,7 +160,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M18.3 5.71L12 12.01L5.7 5.71L4.29 7.12L10.59 13.42L4.29 19.72L5.7 21.13L12 14.83L18.3 21.13L19.71 19.72L13.41 13.42L19.71 7.12L18.3 5.71Z" fill="currentColor"/>
 			</svg>
-			<span>Stop preview</span>
+			<span>${t("panel.stopPreview")}</span>
 		`;
 		stopPreviewBtn.addEventListener("click", () => editor.stopCommand(activatePreview));
 		canvasEl.appendChild(stopPreviewBtn);

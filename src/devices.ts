@@ -1,5 +1,6 @@
 import { Editor } from "grapesjs";
 import { PluginOptions } from '.';
+import { t } from './i18n';
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
     editor.DeviceManager.remove('tablet');
@@ -7,7 +8,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
     editor.DeviceManager.add({
         id: 'desktop',
-        name: 'Desktop',
-        width: '600px',  
+        name: t('device.desktop'),
+        width: '600px',
     })
 };

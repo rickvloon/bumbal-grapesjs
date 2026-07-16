@@ -42,6 +42,10 @@
 
       // Set up GrapesJS editor with the Newsletter plugin
       window.onload = () => {
+        // Try ?locale=nl / ?locale=fr / ?locale=de in the URL to test the
+        // other languages - defaults to English.
+        const locale = 'nl';
+
         window.editor = grapesjs.init({
           height: '100%',
           storageManager: false,
@@ -49,6 +53,7 @@
           plugins: ['bumbal-grapesjs'],
           pluginsOpts: {
             'bumbal-grapesjs': {
+              locale,
               initialContent: contentHtml,
               modalLabelImport: 'Paste all your code here below and click import',
               modalLabelExport: 'Copy the code and use it wherever you want',

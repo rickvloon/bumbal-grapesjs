@@ -1,6 +1,7 @@
 import type { Editor, RichTextEditorAction } from "grapesjs";
 import { PluginOptions } from ".";
 import { alignIcons } from "./traits";
+import { t } from "./i18n";
 
 const alignCommands: Record<string, string> = {
 	left: "justifyLeft",
@@ -22,14 +23,14 @@ export default (editor: Editor, _opts: Required<PluginOptions>) => {
 	const alignActions: RichTextEditorAction[] = (["left", "center", "right", "justify"] as const).map((align) => ({
 		name: `align-${align}`,
 		icon: alignIcons[align],
-		attributes: { title: `Align ${align}` },
+		attributes: { title: t(`rte.align.${align}`) },
 		state: (rteInst: any) => (rteInst?.doc.queryCommandState(alignCommands[align]) ? 1 : 0),
 		result: (rteInst: any) => rteInst.exec(alignCommands[align]),
 	}));
 
 	const colorAction: RichTextEditorAction = {
 		name: "color",
-		icon: `<input type="color" class="gjs-rte-color-input" title="Text colour" />`,
+		icon: `<input type="color" class="gjs-rte-color-input" title="${t("rte.textColour")}" />`,
 		event: "change",
 		result: (rteInst: any, action: any) => rteInst.exec("foreColor", action.btn?.firstChild?.value),
 	} as any;

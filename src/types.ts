@@ -1,13 +1,14 @@
 import type { Editor } from "grapesjs";
 import { PluginOptions } from ".";
 import { weightNames } from "./traits";
+import { t } from "./i18n";
 
 // Font size/weight + text colour traits shared across several types - kept
 // in one place so they can't drift apart from each other.
 const fontSizeTrait = () => ({
 	type: "stepper",
 	name: "font-size",
-	label: "Font size",
+	label: t("traits.label.fontSize"),
 	property: "font-size",
 	unit: "px",
 	min: 8,
@@ -19,7 +20,7 @@ const fontSizeTrait = () => ({
 const fontWeightTrait = () => ({
 	type: "stepper",
 	name: "font-weight",
-	label: "Font weight",
+	label: t("traits.label.fontWeight"),
 	property: "font-weight",
 	unit: "",
 	min: 100,
@@ -29,7 +30,7 @@ const fontWeightTrait = () => ({
 	format: (value: number) => weightNames[value] || String(value),
 });
 
-const textColorTrait = () => ({ type: "text-color", name: "text-color", label: "Text colour" });
+const textColorTrait = () => ({ type: "text-color", name: "text-color", label: t("traits.label.textColour") });
 
 // "text", "button" and "portal-link" all get font size + weight + colour.
 const styleTraits = () => [fontSizeTrait(), fontWeightTrait(), textColorTrait()];
@@ -43,10 +44,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			defaults: {
 				stylable: false,
 				traits: [
-					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
-					{ type: "align-group", name: "text-align", label: "Text align" },
+					{ type: "decoration-group", name: "text-decorations", label: t("traits.label.textDecorations") },
+					{ type: "align-group", name: "text-align", label: t("traits.label.textAlign") },
 					...styleTraits(),
-					{ type: "link", name: "link", label: "Link" },
+					{ type: "link", name: "link", label: t("traits.label.link") },
 				],
 			},
 		},
@@ -61,11 +62,11 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			defaults: {
 				stylable: false,
 				traits: [
-					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
-					{ type: "align-group", name: "text-align", label: "Button align", alignTarget: "parent" },
+					{ type: "decoration-group", name: "text-decorations", label: t("traits.label.textDecorations") },
+					{ type: "align-group", name: "text-align", label: t("traits.label.buttonAlign"), alignTarget: "parent" },
 					...styleTraits(),
-					{ type: "text-color", name: "bg-color", label: "Background colour", property: "background-color" },
-					{ type: "link", name: "link", label: "Link", wrap: false },
+					{ type: "text-color", name: "bg-color", label: t("traits.label.backgroundColour"), property: "background-color" },
+					{ type: "link", name: "link", label: t("traits.label.link"), wrap: false },
 				],
 			},
 		},
@@ -85,11 +86,11 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			defaults: {
 				stylable: false,
 				traits: [
-					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
-					{ type: "align-group", name: "text-align", label: "Button align", alignTarget: "parent" },
+					{ type: "decoration-group", name: "text-decorations", label: t("traits.label.textDecorations") },
+					{ type: "align-group", name: "text-align", label: t("traits.label.buttonAlign"), alignTarget: "parent" },
 					...styleTraits(),
-					{ type: "text-color", name: "bg-color", label: "Background colour", property: "background-color" },
-					{ type: "link", name: "link", label: "Link", wrap: false },
+					{ type: "text-color", name: "bg-color", label: t("traits.label.backgroundColour"), property: "background-color" },
+					{ type: "link", name: "link", label: t("traits.label.link"), wrap: false },
 				],
 			},
 		},
@@ -108,22 +109,22 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 					{
 						type: "custom-select",
 						name: "href",
-						label: "Link to",
+						label: t("traits.label.linkTo"),
 						options: [
 							{
 								id: `${portalBaseUrl}/afspraken/?token={{uuid}}&zipcode={{address.zipcode}}`,
-								name: "Appointment portal",
+								name: t("traits.label.appointmentPortal"),
 							},
 							{
 								id: `${portalBaseUrl}/eta/?token={{uuid}}&zipcode={{address.zipcode}}`,
-								name: "Client portal",
+								name: t("traits.label.clientPortal"),
 							},
 						],
 					},
-					{ type: "decoration-group", name: "text-decorations", label: "Text decorations" },
-					{ type: "align-group", name: "text-align", label: "Button align", alignTarget: "parent" },
+					{ type: "decoration-group", name: "text-decorations", label: t("traits.label.textDecorations") },
+					{ type: "align-group", name: "text-align", label: t("traits.label.buttonAlign"), alignTarget: "parent" },
 					...styleTraits(),
-					{ type: "text-color", name: "bg-color", label: "Background colour", property: "background-color" },
+					{ type: "text-color", name: "bg-color", label: t("traits.label.backgroundColour"), property: "background-color" },
 				],
 			},
 		},
@@ -146,7 +147,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			defaults: {
 				stylable: false,
 				traits: [
-					{ type: "align-group", name: "text-align", label: "Text align" },
+					{ type: "align-group", name: "text-align", label: t("traits.label.textAlign") },
 					fontSizeTrait(),
 					textColorTrait(),
 				],
@@ -171,9 +172,9 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 				stylable: false,
 				traits: [
 					{ type: "image-upload", name: "src", label: false },
-					{ type: "align-group", name: "text-align", label: "Image align", alignTarget: "parent" },
-					{ type: "alt-text", name: "alt", label: "alt-text" },
-					{ type: "link", name: "link", label: "Link", wrap: "parent" },
+					{ type: "align-group", name: "text-align", label: t("traits.label.imageAlign"), alignTarget: "parent" },
+					{ type: "alt-text", name: "alt", label: t("traits.label.altText") },
+					{ type: "link", name: "link", label: t("traits.label.link"), wrap: "parent" },
 				],
 			},
 		},

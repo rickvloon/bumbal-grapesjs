@@ -1,17 +1,27 @@
 import type { Editor, Component } from "grapesjs";
 import { PluginOptions } from ".";
+import { t } from "./i18n";
 
-const weightNames: Record<number, string> = {
-	100: "Thin",
-	200: "Extra light",
-	300: "Light",
-	400: "Regular",
-	500: "Medium",
-	600: "Semibold",
-	700: "Bold",
-	800: "Extra bold",
-	900: "Black",
+const weightKeys: Record<number, string> = {
+	100: "thin",
+	200: "extraLight",
+	300: "light",
+	400: "regular",
+	500: "medium",
+	600: "semibold",
+	700: "bold",
+	800: "extraBold",
+	900: "black",
 };
+
+// Translated lazily (call time, not module-load time) since `t()` only
+// resolves once `initI18n` has run as part of the plugin's own init.
+const weightNames = new Proxy({} as Record<number, string>, {
+	get: (_target, prop) => {
+		const key = weightKeys[Number(prop)];
+		return key ? t(`traits.weight.${key}`) : undefined;
+	},
+});
 
 const normalizeWeight = (raw: string | undefined): number => {
 	if (raw === "bold") return 700;
@@ -80,15 +90,15 @@ const alignIcons: Record<string, string> = {
 const deriveTitle = (component: Component): string => {
 	const tag = (component.get("tagName") || "").toLowerCase();
 	const classes = component.getClasses();
-	if (tag === "h1") return "Heading 1";
-	if (tag === "h2") return "Heading 2";
-	if (tag === "h4" && classes.indexOf("subtitle") >= 0) return "Subtitle";
-	if (tag === "p") return "Paragraph";
-	if (tag === "a" && classes.indexOf("button") >= 0) return "Button";
-	if (component.get("type") === "portal-link") return "Portal link";
+	if (tag === "h1") return t("traits.title.heading1");
+	if (tag === "h2") return t("traits.title.heading2");
+	if (tag === "h4" && classes.indexOf("subtitle") >= 0) return t("traits.title.subtitle");
+	if (tag === "p") return t("traits.title.paragraph");
+	if (tag === "a" && classes.indexOf("button") >= 0) return t("traits.title.button");
+	if (component.get("type") === "portal-link") return t("traits.title.portalLink");
 	if (component.get("type") === "notes-packageline") {
-		if (classes.indexOf("notes-table") >= 0) return "Notes";
-		if (classes.indexOf("packageline-table") >= 0) return "Packagelines";
+		if (classes.indexOf("notes-table") >= 0) return t("traits.title.notes");
+		if (classes.indexOf("packageline-table") >= 0) return t("traits.title.packagelines");
 	}
 	return component.getName();
 };
@@ -111,9 +121,9 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		label.innerHTML = `
 			<div class="gjs-trt-heading-title">${deriveTitle(component)}</div>
 			<div class="gjs-trt-heading-actions">
-				<button type="button" class="gjs-trt-heading-btn" data-action="duplicate" title="Duplicate">${dupIcon}</button>
-				<button type="button" class="gjs-trt-heading-btn" data-action="delete" title="Delete">${trashIcon}</button>
-				<button type="button" class="gjs-trt-heading-btn" data-action="close" title="Close">${closeIcon}</button>
+				<button type="button" class="gjs-trt-heading-btn" data-action="duplicate" title="${t("traits.header.duplicate")}">${dupIcon}</button>
+				<button type="button" class="gjs-trt-heading-btn" data-action="delete" title="${t("traits.header.delete")}">${trashIcon}</button>
+				<button type="button" class="gjs-trt-heading-btn" data-action="close" title="${t("traits.header.close")}">${closeIcon}</button>
 			</div>
 		`;
 
@@ -158,10 +168,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-toggle-group";
 			wrap.innerHTML = `
-				<button type="button" class="gjs-trt-toggle-btn" data-key="bold" title="Bold"><span class="gjs-trt-decoration-icon" style="font-weight:700">B</span></button>
-				<button type="button" class="gjs-trt-toggle-btn" data-key="italic" title="Italic"><span class="gjs-trt-decoration-icon" style="font-style:italic">I</span></button>
-				<button type="button" class="gjs-trt-toggle-btn" data-key="strikethrough" title="Strikethrough"><span class="gjs-trt-decoration-icon" style="text-decoration:line-through">S</span></button>
-				<button type="button" class="gjs-trt-toggle-btn" data-key="underline" title="Underline"><span class="gjs-trt-decoration-icon" style="text-decoration:underline">U</span></button>
+				<button type="button" class="gjs-trt-toggle-btn" data-key="bold" title="${t("traits.decoration.bold")}"><span class="gjs-trt-decoration-icon" style="font-weight:700">B</span></button>
+				<button type="button" class="gjs-trt-toggle-btn" data-key="italic" title="${t("traits.decoration.italic")}"><span class="gjs-trt-decoration-icon" style="font-style:italic">I</span></button>
+				<button type="button" class="gjs-trt-toggle-btn" data-key="strikethrough" title="${t("traits.decoration.strikethrough")}"><span class="gjs-trt-decoration-icon" style="text-decoration:line-through">S</span></button>
+				<button type="button" class="gjs-trt-toggle-btn" data-key="underline" title="${t("traits.decoration.underline")}"><span class="gjs-trt-decoration-icon" style="text-decoration:underline">U</span></button>
 			`;
 
 			const isBold = (styles: Record<string, string>) => normalizeWeight(styles["font-weight"]) >= 600;
@@ -228,7 +238,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			wrap.innerHTML = values
 				.map(
 					(v) =>
-						`<button type="button" class="gjs-trt-toggle-btn" data-value="${v}" title="${v}">${alignIcons[v]}</button>`,
+						`<button type="button" class="gjs-trt-toggle-btn" data-value="${v}" title="${t(`traits.align.${v}`)}">${alignIcons[v]}</button>`,
 				)
 				.join("");
 
@@ -279,9 +289,9 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			wrap.className = "gjs-trt-stepper";
 			wrap.dataset.property = property;
 			wrap.innerHTML = `
-				<button type="button" class="gjs-trt-stepper-btn" data-dir="-1" aria-label="Decrease">&minus;</button>
+				<button type="button" class="gjs-trt-stepper-btn" data-dir="-1" aria-label="${t("traits.stepper.decrease")}">&minus;</button>
 				<div class="gjs-trt-stepper-value"></div>
-				<button type="button" class="gjs-trt-stepper-btn" data-dir="1" aria-label="Increase">+</button>
+				<button type="button" class="gjs-trt-stepper-btn" data-dir="1" aria-label="${t("traits.stepper.increase")}">+</button>
 			`;
 			const valueEl = wrap.querySelector(".gjs-trt-stepper-value") as HTMLElement;
 
@@ -385,13 +395,13 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			const wrap = document.createElement("div");
 			wrap.className = "gjs-trt-link";
 			wrap.innerHTML = `
-				<div class="gjs-trt-link-value">No link</div>
-				<button type="button" class="gjs-trt-link-btn" title="Set link">${linkIcon}</button>
+				<div class="gjs-trt-link-value">${t("traits.link.noLink")}</div>
+				<button type="button" class="gjs-trt-link-btn" title="${t("traits.link.setLink")}">${linkIcon}</button>
 				<div class="gjs-trt-link-popover" hidden>
-					<input type="text" class="gjs-trt-link-input" placeholder="https://example.com" />
+					<input type="text" class="gjs-trt-link-input" placeholder="${t("traits.link.placeholder")}" />
 					<div class="gjs-trt-link-popover-actions">
-						<button type="button" data-action="remove" class="gjs-trt-link-remove">Remove</button>
-						<button type="button" data-action="apply" class="gjs-trt-link-apply">Apply</button>
+						<button type="button" data-action="remove" class="gjs-trt-link-remove">${t("traits.link.remove")}</button>
+						<button type="button" data-action="apply" class="gjs-trt-link-apply">${t("traits.link.apply")}</button>
 					</div>
 				</div>
 			`;
@@ -428,7 +438,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 
 			const sync = () => {
 				const href = getHref();
-				valueEl.textContent = href || "No link";
+				valueEl.textContent = href || t("traits.link.noLink");
 				valueEl.classList.toggle("gjs-trt-link-value--set", !!href);
 				btn.classList.toggle("gjs-trt-link-btn--active", !!href);
 				input.value = href;
@@ -613,7 +623,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 		},
 		createLabel() {
 			const rawLabel = (this as any).model.get("label") || "";
-			return `<span class="gjs-trt-alt-label" style="display: flex; align-items: center; gap: 4px;">${rawLabel}<span class="gjs-trt-alt-info gjs-trt-tooltip" data-tooltip="Shown to screen readers and when the image fails to load.">${infoIcon}</span></span>`;
+			return `<span class="gjs-trt-alt-label" style="display: flex; align-items: center; gap: 4px;">${rawLabel}<span class="gjs-trt-alt-info gjs-trt-tooltip" data-tooltip="${t("traits.altTextTooltip")}">${infoIcon}</span></span>`;
 		},
 		createInput({ component }: { component: Component }) {
 			const model = (this as any).model;
@@ -655,7 +665,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 				<input type="file" accept="image/*" class="gjs-trt-upload-input" hidden />
 				<div class="gjs-trt-upload-empty">
 					<div class="gjs-trt-upload-icon">${cloudUploadIcon}</div>
-					<div class="gjs-trt-upload-text">Drag and drop or <button type="button" class="gjs-trt-upload-choose">Choose file</button> to upload</div>
+					<div class="gjs-trt-upload-text">${t("traits.upload.dragDrop")}<button type="button" class="gjs-trt-upload-choose">${t("traits.upload.chooseFile")}</button>${t("traits.upload.toUpload")}</div>
 				</div>
 				<div class="gjs-trt-upload-file" hidden>
 					<img class="gjs-trt-upload-thumb" />
@@ -663,7 +673,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 						<div class="gjs-trt-upload-name"></div>
 						<div class="gjs-trt-upload-size"></div>
 					</div>
-					<button type="button" class="gjs-trt-upload-delete" title="Remove image">${trashIcon}</button>
+					<button type="button" class="gjs-trt-upload-delete" title="${t("traits.upload.removeImage")}">${trashIcon}</button>
 				</div>
 			`;
 
@@ -676,10 +686,10 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 			const deleteBtn = wrap.querySelector(".gjs-trt-upload-delete") as HTMLElement;
 
 			const formatSize = (bytes: number) => {
-				if (bytes < 1024) return `${bytes} b`;
+				if (bytes < 1024) return `${bytes} ${t("traits.upload.sizeUnitB")}`;
 				const kb = bytes / 1024;
-				if (kb < 1024) return `${kb.toFixed(1)} kb`;
-				return `${(kb / 1024).toFixed(1)} mb`;
+				if (kb < 1024) return `${kb.toFixed(1)} ${t("traits.upload.sizeUnitKb")}`;
+				return `${(kb / 1024).toFixed(1)} ${t("traits.upload.sizeUnitMb")}`;
 			};
 
 			const extractFile = (e: Event | DragEvent): File | undefined => {
@@ -720,7 +730,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
 				if (hasImage) {
 					thumbEl.src = (component as any).getSrcResult ? (component as any).getSrcResult() : component.get("src");
 					const attrs = component.getAttributes();
-					nameEl.textContent = attrs["data-file-name"] || "Image";
+					nameEl.textContent = attrs["data-file-name"] || t("traits.upload.fallbackName");
 					sizeEl.textContent = attrs["data-file-size"] || "";
 				}
 			};

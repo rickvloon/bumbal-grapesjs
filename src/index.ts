@@ -12,6 +12,8 @@ import loadTraits from './traits';
 import loadTypes from './types';
 import loadPreview from './preview';
 import loadRte from './rte';
+import { initI18n, t, supportedLocales, type SupportedLocale } from './i18n';
+export { supportedLocales, type SupportedLocale } from './i18n';
 import './theme.css';
 
 /**
@@ -195,6 +197,15 @@ export interface PluginOptions {
    * @default undefined
    */
   initialContent?: string;
+
+  /**
+   * UI language for every built-in label/tooltip/block name this plugin
+   * renders (block labels, trait labels, the Variables panel, RTE toolbar
+   * tooltips, etc.) - not GrapesJS's own native chrome (Style Manager
+   * sectors, core commands), which has its own separate i18n system.
+   * @default 'en'
+   */
+  locale?: SupportedLocale;
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
@@ -214,7 +225,13 @@ const defaultUploadFile: UploadFileFn = (e, clb) => {
 const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}) => {
   let config = editor.getConfig();
 
+  // Resolved and initialized before building `options` below, so every
+  // `t(...)` default in this same object already reflects the right locale.
+  const locale = opts.locale || 'en';
+  initI18n(locale);
+
   const options: RequiredPluginOptions = {
+    locale,
     blocks: [
       'sect100', 'sect50', 'sect30', 'sect25', 'sect13l', 'sect13r',
       'heading-h1', 'heading-h2', 'text', 'subtitle', 'image', 'link',
@@ -226,11 +243,11 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     cmdOpenImport: 'gjs-open-import-template',
     cmdTglImages: 'gjs-toggle-images',
     cmdInlineHtml: 'gjs-get-inlined-html',
-    modalTitleImport: 'Import template',
-    modalTitleExport: 'Export template',
+    modalTitleImport: t('modal.importTitle'),
+    modalTitleExport: t('modal.exportTitle'),
     modalLabelImport: '',
     modalLabelExport: '',
-    modalBtnImport: 'Import',
+    modalBtnImport: t('modal.importBtn'),
     codeViewerTheme: 'hopscotch',
     importPlaceholder: '',
     inlineCss: true,
@@ -248,32 +265,32 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     updateStyleManager: true,
     showStylesOnChange: true,
     showBlocksOnLoad: true,
-    textCleanCanvas: 'Are you sure you want to clear the canvas?',
+    textCleanCanvas: t('confirm.clearCanvas'),
     variables: {
-      Activity: {
-        Number: '{{nr}}',
-        UUID: '{{uuid}}',
-        'Activity type': '{{activity_type_name}}',
-        'Start time': '{{date_time_from}}',
-        'End time': '{{date_time_to}}',
-        'Package lines': '{{package_lines}}',
+      [t('variables.category.activity')]: {
+        [t('variables.item.number')]: '{{nr}}',
+        [t('variables.item.uuid')]: '{{uuid}}',
+        [t('variables.item.activityType')]: '{{activity_type_name}}',
+        [t('variables.item.startTime')]: '{{date_time_from}}',
+        [t('variables.item.endTime')]: '{{date_time_to}}',
+        [t('variables.item.packageLines')]: '{{package_lines}}',
       },
-      Address: {
-        'Contact person': '{{address.contact_person}}',
-        'Street name': '{{address.street_1}}',
-        'Street name 2': '{{address.street_2}}',
-        'House number': '{{address.house_nr}}',
-        'House number addition': '{{address.house_nr_addendum}}',
-        'Zip code': '{{address.zipcode}}',
-        City: '{{address.city}}',
-        Country: '{{address.iso_country}}',
-        'Address summary': '{{address.summary}}',
+      [t('variables.category.address')]: {
+        [t('variables.item.contactPerson')]: '{{address.contact_person}}',
+        [t('variables.item.streetName')]: '{{address.street_1}}',
+        [t('variables.item.streetName2')]: '{{address.street_2}}',
+        [t('variables.item.houseNumber')]: '{{address.house_nr}}',
+        [t('variables.item.houseNumberAddition')]: '{{address.house_nr_addendum}}',
+        [t('variables.item.zipCode')]: '{{address.zipcode}}',
+        [t('variables.item.city')]: '{{address.city}}',
+        [t('variables.item.country')]: '{{address.iso_country}}',
+        [t('variables.item.addressSummary')]: '{{address.summary}}',
       },
-      Other: {
-        Reference: '{{reference}}',
-        'Driver full name': '{{driver_full_name}}',
-        'Assignment number': '{{assignment.nr}}',
-        'Account name': '{{assignment.account_name}}',
+      [t('variables.category.other')]: {
+        [t('variables.item.reference')]: '{{reference}}',
+        [t('variables.item.driverFullName')]: '{{driver_full_name}}',
+        [t('variables.item.assignmentNumber')]: '{{assignment.nr}}',
+        [t('variables.item.accountName')]: '{{assignment.account_name}}',
       },
     },
     bumbalOptions: {
@@ -316,7 +333,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
       vertical-align: middle !important;
     }
     .cell:empty::before {
-      content: "No content here.\\A Drag content from the right.";
+      content: "${t('content.emptyCell')}";
       white-space: pre-line;
       display: inline-block;
       color: #3b97e3;
