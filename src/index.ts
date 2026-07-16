@@ -3,6 +3,7 @@ import juice from 'juice';
 import loadBlocks from './blocks';
 import loadCommands from './commands';
 import loadComponents from './components';
+export { wrapBareTwigInComments } from './components';
 import loadPanels from './panels';
 import loadStyles from './styles';
 import loadDevices from './devices';

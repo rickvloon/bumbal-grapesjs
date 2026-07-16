@@ -15,18 +15,38 @@
     }
   </style>
   <body>
-    <div id="gjs" style="height:0px; overflow:hidden">
-     
-    </div>
+    <div id="gjs" style="height:0px; overflow:hidden"></div>
 
     <script type="text/javascript">
+      // A bare `{% for %}` sitting directly inside <table> (outside any
+      // <tr>/<td>) is invalid HTML - passed via `fromElement`/raw innerHTML,
+      // the browser's own parser would foster-parent (relocate) that text
+      // out of the table before anything of ours ever runs. Passed as a
+      // plain string to `components` instead, GrapesJS parses it internally,
+      // so `wrapBareTwigInComments` gets a chance to wrap the bare tags in
+      // HTML comments (safe anywhere, never relocated) before that parse
+      // ever happens.
+      const contentHtml = `
+        <table style="width:100%;">
+          {% for item in packagelines %}
+              <tr>
+            <td class="cell">
+              <h1 style="margin:0;padding:12px 8px;font-size:22px;font-weight:600;">{{nr}} x {{name}}</h1>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      `;
+
       // Set up GrapesJS editor with the Newsletter plugin
       window.onload = () => {
+        const { wrapBareTwigInComments } = window['bumbal-grapesjs'];
+
         window.editor = grapesjs.init({
           height: '100%',
           storageManager: false,
           container: '#gjs',
-          fromElement: true,
+          components: wrapBareTwigInComments(contentHtml),
           plugins: ['bumbal-grapesjs'],
           pluginsOpts: {
             'bumbal-grapesjs': {

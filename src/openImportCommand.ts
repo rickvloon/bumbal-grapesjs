@@ -1,5 +1,6 @@
 import type { Editor } from 'grapesjs';
 import { PluginOptions } from '.';
+import { wrapBareTwigInComments } from './components';
 
 export default (editor: Editor, opts: Required<PluginOptions>) => {
   const cmdm = editor.Commands;
@@ -72,7 +73,7 @@ export default (editor: Editor, opts: Required<PluginOptions>) => {
           const code = codeViewer.codeEditor.editor.getValue();
           editor.Components.clear();
           editor.Css.clear();
-          editor.setComponents(code);
+          editor.setComponents(wrapBareTwigInComments(code));
           editor.Modal.close();
         };
 
