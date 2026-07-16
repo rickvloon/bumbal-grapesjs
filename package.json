@@ -1,6 +1,6 @@
 {
   "name": "bumbal-grapesjs",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "GrapesJS preset configuration for the newsletter editor",
   "main": "dist/index.js",
   "style": "dist/index.css",

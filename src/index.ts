@@ -2,7 +2,7 @@ import type { Plugin } from 'grapesjs';
 import juice from 'juice';
 import loadBlocks from './blocks';
 import loadCommands from './commands';
-import loadComponents from './components';
+import loadComponents, { wrapBareTwigInComments } from './components';
 export { wrapBareTwigInComments } from './components';
 import loadPanels from './panels';
 import loadStyles from './styles';
@@ -182,6 +182,19 @@ export interface PluginOptions {
    * @default undefined
    */
   onUpdate?: (html: string) => void;
+
+  /**
+   * Initial HTML content, run through `wrapBareTwigInComments` before being
+   * set. Prefer this over GrapesJS's own `components`/`fromElement` init
+   * options if your content may contain bare `{% %}` twig tags (eg. a
+   * `{% for %}` around table rows) - those config options get parsed into
+   * components synchronously inside the `Editor` constructor, before any
+   * plugin (including this one) runs, so there's no way for a plugin to
+   * transform that content first. This option instead applies the wrap and
+   * calls `editor.setComponents()` from within the plugin itself.
+   * @default undefined
+   */
+  initialContent?: string;
 };
 
 export type RequiredPluginOptions = Required<PluginOptions>;
@@ -268,6 +281,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
     },
     uploadFile: defaultUploadFile,
     onUpdate: () => {},
+    initialContent: '',
     ...opts,
   };
 
@@ -323,6 +337,16 @@ const plugin: Plugin<PluginOptions> = (editor, opts: Partial<PluginOptions> = {}
   loadVariables(editor, options);
   loadPreview(editor, options);
   loadRte(editor, options);
+
+  if (options.initialContent) {
+    // Deferred until the editor is fully ready (past `loadOnStart()`/
+    // `render()`) - calling `setComponents` synchronously during plugin
+    // init runs ahead of modules (UndoManager, Canvas, etc.) it depends on,
+    // which aren't fully set up yet at this point.
+    editor.onReady(() => {
+      editor.setComponents(wrapBareTwigInComments(options.initialContent));
+    });
+  }
 };
 
 export default plugin;
